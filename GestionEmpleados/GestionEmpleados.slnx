@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="GestionEmpleados.BL/GestionEmpleados.BL.csproj" />
+  <Project Path="GestionEmpleados.DAL/GestionEmpleados.DAL.csproj" />
+  <Project Path="GestionEmpleados.Entities/GestionEmpleados.Entities.csproj" />
+  <Project Path="GestionEmpleados/GestionEmpleados.csproj" />
+</Solution>
