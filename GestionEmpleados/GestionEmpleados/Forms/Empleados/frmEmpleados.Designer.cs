@@ -31,16 +31,28 @@
             btnAgregar = new Button();
             txtBuscar = new TextBox();
             lblBuscar = new Label();
-            gridLibros = new DataGridView();
+            gridEmpleados = new DataGridView();
             Editar = new DataGridViewButtonColumn();
             Eliminar = new DataGridViewButtonColumn();
-            Id = new DataGridViewTextBoxColumn();
-            Titulo = new DataGridViewTextBoxColumn();
-            Autor = new DataGridViewTextBoxColumn();
-            Genero = new DataGridViewTextBoxColumn();
-            FechaPublicacion = new DataGridViewTextBoxColumn();
-            Disponible = new DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)gridLibros).BeginInit();
+            IdEmpleado = new DataGridViewTextBoxColumn();
+            IdSucursal = new DataGridViewTextBoxColumn();
+            Identificacion = new DataGridViewTextBoxColumn();
+            Nombre = new DataGridViewTextBoxColumn();
+            Apellidos = new DataGridViewTextBoxColumn();
+            Telefono = new DataGridViewTextBoxColumn();
+            Correo = new DataGridViewTextBoxColumn();
+            Contrasenna = new DataGridViewTextBoxColumn();
+            FechaNacimiento = new DataGridViewTextBoxColumn();
+            FechaIngreso = new DataGridViewTextBoxColumn();
+            FechaSalida = new DataGridViewTextBoxColumn();
+            IdPuesto = new DataGridViewTextBoxColumn();
+            Bonificacion = new DataGridViewTextBoxColumn();
+            PagaSeguro = new DataGridViewTextBoxColumn();
+            Estado = new DataGridViewTextBoxColumn();
+            btnLimpiarBuscador = new Button();
+            cmbPuestos = new ComboBox();
+            lblPuesto = new Label();
+            ((System.ComponentModel.ISupportInitialize)gridEmpleados).BeginInit();
             SuspendLayout();
             // 
             // btnAgregar
@@ -52,37 +64,40 @@
             btnAgregar.TabIndex = 16;
             btnAgregar.Text = "AGREGAR";
             btnAgregar.UseVisualStyleBackColor = true;
+            btnAgregar.Click += btnAgregar_Click;
             // 
             // txtBuscar
             // 
-            txtBuscar.Location = new Point(101, 46);
+            txtBuscar.Location = new Point(99, 56);
             txtBuscar.Margin = new Padding(3, 2, 3, 2);
             txtBuscar.Name = "txtBuscar";
             txtBuscar.Size = new Size(183, 23);
             txtBuscar.TabIndex = 15;
             txtBuscar.TextAlign = HorizontalAlignment.Center;
+            txtBuscar.TextChanged += txtBuscar_TextChanged;
             // 
             // lblBuscar
             // 
             lblBuscar.AutoSize = true;
-            lblBuscar.Location = new Point(37, 48);
+            lblBuscar.Location = new Point(35, 62);
             lblBuscar.Name = "lblBuscar";
             lblBuscar.Size = new Size(54, 15);
             lblBuscar.TabIndex = 14;
             lblBuscar.Text = "BUSCAR:";
             // 
-            // gridLibros
+            // gridEmpleados
             // 
-            gridLibros.AllowUserToAddRows = false;
-            gridLibros.BackgroundColor = Color.White;
-            gridLibros.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            gridLibros.Columns.AddRange(new DataGridViewColumn[] { Editar, Eliminar, Id, Titulo, Autor, Genero, FechaPublicacion, Disponible });
-            gridLibros.Location = new Point(37, 78);
-            gridLibros.Margin = new Padding(3, 2, 3, 2);
-            gridLibros.Name = "gridLibros";
-            gridLibros.RowHeadersWidth = 51;
-            gridLibros.Size = new Size(858, 372);
-            gridLibros.TabIndex = 13;
+            gridEmpleados.AllowUserToAddRows = false;
+            gridEmpleados.BackgroundColor = Color.White;
+            gridEmpleados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            gridEmpleados.Columns.AddRange(new DataGridViewColumn[] { Editar, Eliminar, IdEmpleado, IdSucursal, Identificacion, Nombre, Apellidos, Telefono, Correo, Contrasenna, FechaNacimiento, FechaIngreso, FechaSalida, IdPuesto, Bonificacion, PagaSeguro, Estado });
+            gridEmpleados.Location = new Point(37, 95);
+            gridEmpleados.Margin = new Padding(3, 2, 3, 2);
+            gridEmpleados.Name = "gridEmpleados";
+            gridEmpleados.RowHeadersWidth = 51;
+            gridEmpleados.Size = new Size(858, 372);
+            gridEmpleados.TabIndex = 13;
+            gridEmpleados.CellContentClick += gridEmpleados_CellContentClick;
             // 
             // Editar
             // 
@@ -102,67 +117,162 @@
             Eliminar.UseColumnTextForButtonValue = true;
             Eliminar.Width = 75;
             // 
-            // Id
+            // IdEmpleado
             // 
-            Id.DataPropertyName = "Id";
-            Id.HeaderText = "Id";
-            Id.MinimumWidth = 6;
-            Id.Name = "Id";
-            Id.Visible = false;
-            Id.Width = 125;
+            IdEmpleado.DataPropertyName = "IdEmpleado";
+            IdEmpleado.HeaderText = "IdEmpleado";
+            IdEmpleado.MinimumWidth = 6;
+            IdEmpleado.Name = "IdEmpleado";
+            IdEmpleado.Visible = false;
+            IdEmpleado.Width = 125;
             // 
-            // Titulo
+            // IdSucursal
             // 
-            Titulo.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Titulo.DataPropertyName = "Titulo";
-            Titulo.HeaderText = "Titulo";
-            Titulo.MinimumWidth = 6;
-            Titulo.Name = "Titulo";
+            IdSucursal.DataPropertyName = "IdSucursal";
+            IdSucursal.HeaderText = "IdSucursal";
+            IdSucursal.Name = "IdSucursal";
+            IdSucursal.Visible = false;
             // 
-            // Autor
+            // Identificacion
             // 
-            Autor.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Autor.DataPropertyName = "Autor";
-            Autor.HeaderText = "Autor";
-            Autor.MinimumWidth = 6;
-            Autor.Name = "Autor";
+            Identificacion.DataPropertyName = "Identificacion";
+            Identificacion.HeaderText = "Identificacion";
+            Identificacion.Name = "Identificacion";
+            Identificacion.Visible = false;
             // 
-            // Genero
+            // Nombre
             // 
-            Genero.DataPropertyName = "Genero";
-            Genero.HeaderText = "Genero";
-            Genero.MinimumWidth = 6;
-            Genero.Name = "Genero";
-            Genero.Width = 120;
+            Nombre.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Nombre.DataPropertyName = "Nombre";
+            Nombre.HeaderText = "Nombre";
+            Nombre.MinimumWidth = 6;
+            Nombre.Name = "Nombre";
             // 
-            // FechaPublicacion
+            // Apellidos
             // 
-            FechaPublicacion.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            FechaPublicacion.DataPropertyName = "FechaPublicacion";
-            FechaPublicacion.HeaderText = "Fecha de Publicacion";
-            FechaPublicacion.MinimumWidth = 6;
-            FechaPublicacion.Name = "FechaPublicacion";
+            Apellidos.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Apellidos.DataPropertyName = "Apellidos";
+            Apellidos.HeaderText = "Apellidos";
+            Apellidos.MinimumWidth = 6;
+            Apellidos.Name = "Apellidos";
             // 
-            // Disponible
+            // Telefono
             // 
-            Disponible.DataPropertyName = "Disponible";
-            Disponible.HeaderText = "Disponible";
-            Disponible.MinimumWidth = 6;
-            Disponible.Name = "Disponible";
-            Disponible.Width = 90;
+            Telefono.DataPropertyName = "Telefono";
+            Telefono.HeaderText = "Telefono";
+            Telefono.MinimumWidth = 6;
+            Telefono.Name = "Telefono";
+            Telefono.Visible = false;
+            Telefono.Width = 120;
+            // 
+            // Correo
+            // 
+            Correo.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Correo.DataPropertyName = "Correo";
+            Correo.HeaderText = "Correo";
+            Correo.MinimumWidth = 6;
+            Correo.Name = "Correo";
+            // 
+            // Contrasenna
+            // 
+            Contrasenna.DataPropertyName = "Contrasenna";
+            Contrasenna.HeaderText = "Contraseña";
+            Contrasenna.Name = "Contrasenna";
+            // 
+            // FechaNacimiento
+            // 
+            FechaNacimiento.DataPropertyName = "FechaNacimiento";
+            FechaNacimiento.HeaderText = "FechaNacimiento";
+            FechaNacimiento.MinimumWidth = 6;
+            FechaNacimiento.Name = "FechaNacimiento";
+            FechaNacimiento.Visible = false;
+            FechaNacimiento.Width = 90;
+            // 
+            // FechaIngreso
+            // 
+            FechaIngreso.DataPropertyName = "FechaIngreso";
+            FechaIngreso.HeaderText = "FechaIngreso";
+            FechaIngreso.Name = "FechaIngreso";
+            // 
+            // FechaSalida
+            // 
+            FechaSalida.DataPropertyName = "FechaSalida";
+            FechaSalida.HeaderText = "FechaSalida";
+            FechaSalida.Name = "FechaSalida";
+            FechaSalida.Visible = false;
+            // 
+            // IdPuesto
+            // 
+            IdPuesto.DataPropertyName = "IdPuesto";
+            IdPuesto.HeaderText = "IdPuesto";
+            IdPuesto.Name = "IdPuesto";
+            IdPuesto.Visible = false;
+            // 
+            // Bonificacion
+            // 
+            Bonificacion.DataPropertyName = "Bonificacion";
+            Bonificacion.HeaderText = "Bonificacion";
+            Bonificacion.Name = "Bonificacion";
+            Bonificacion.Visible = false;
+            // 
+            // PagaSeguro
+            // 
+            PagaSeguro.DataPropertyName = "PagaSeguro";
+            PagaSeguro.HeaderText = "PagaSeguro";
+            PagaSeguro.Name = "PagaSeguro";
+            PagaSeguro.Visible = false;
+            // 
+            // Estado
+            // 
+            Estado.DataPropertyName = "Estado";
+            Estado.HeaderText = "Estado";
+            Estado.Name = "Estado";
+            // 
+            // btnLimpiarBuscador
+            // 
+            btnLimpiarBuscador.Location = new Point(306, 28);
+            btnLimpiarBuscador.Name = "btnLimpiarBuscador";
+            btnLimpiarBuscador.Size = new Size(61, 23);
+            btnLimpiarBuscador.TabIndex = 20;
+            btnLimpiarBuscador.Text = "Limpiar";
+            btnLimpiarBuscador.UseVisualStyleBackColor = true;
+            btnLimpiarBuscador.Click += btnLimpiarBuscador_Click;
+            // 
+            // cmbPuestos
+            // 
+            cmbPuestos.FormattingEnabled = true;
+            cmbPuestos.Location = new Point(99, 28);
+            cmbPuestos.Margin = new Padding(3, 2, 3, 2);
+            cmbPuestos.Name = "cmbPuestos";
+            cmbPuestos.Size = new Size(183, 23);
+            cmbPuestos.TabIndex = 18;
+            cmbPuestos.SelectedIndexChanged += cmbPuestos_SelectedIndexChanged;
+            // 
+            // lblPuesto
+            // 
+            lblPuesto.AutoSize = true;
+            lblPuesto.Location = new Point(36, 29);
+            lblPuesto.Name = "lblPuesto";
+            lblPuesto.Size = new Size(46, 15);
+            lblPuesto.TabIndex = 17;
+            lblPuesto.Text = "Puesto:";
             // 
             // frmEmpleados
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(967, 514);
+            Controls.Add(btnLimpiarBuscador);
+            Controls.Add(cmbPuestos);
+            Controls.Add(lblPuesto);
             Controls.Add(btnAgregar);
             Controls.Add(txtBuscar);
             Controls.Add(lblBuscar);
-            Controls.Add(gridLibros);
+            Controls.Add(gridEmpleados);
             Name = "frmEmpleados";
             Text = "frmEmpleados";
-            ((System.ComponentModel.ISupportInitialize)gridLibros).EndInit();
+            Load += frmEmpleados_Load;
+            ((System.ComponentModel.ISupportInitialize)gridEmpleados).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -172,14 +282,26 @@
         private Button btnAgregar;
         private TextBox txtBuscar;
         private Label lblBuscar;
-        private DataGridView gridLibros;
+        private DataGridView gridEmpleados;
         private DataGridViewButtonColumn Editar;
         private DataGridViewButtonColumn Eliminar;
-        private DataGridViewTextBoxColumn Id;
-        private DataGridViewTextBoxColumn Titulo;
-        private DataGridViewTextBoxColumn Autor;
-        private DataGridViewTextBoxColumn Genero;
-        private DataGridViewTextBoxColumn FechaPublicacion;
-        private DataGridViewTextBoxColumn Disponible;
+        private DataGridViewTextBoxColumn IdEmpleado;
+        private DataGridViewTextBoxColumn IdSucursal;
+        private DataGridViewTextBoxColumn Identificacion;
+        private DataGridViewTextBoxColumn Nombre;
+        private DataGridViewTextBoxColumn Apellidos;
+        private DataGridViewTextBoxColumn Telefono;
+        private DataGridViewTextBoxColumn Correo;
+        private DataGridViewTextBoxColumn Contrasenna;
+        private DataGridViewTextBoxColumn FechaNacimiento;
+        private DataGridViewTextBoxColumn FechaIngreso;
+        private DataGridViewTextBoxColumn FechaSalida;
+        private DataGridViewTextBoxColumn IdPuesto;
+        private DataGridViewTextBoxColumn Bonificacion;
+        private DataGridViewTextBoxColumn PagaSeguro;
+        private DataGridViewTextBoxColumn Estado;
+        private Button btnLimpiarBuscador;
+        private ComboBox cmbPuestos;
+        private Label lblPuesto;
     }
 }

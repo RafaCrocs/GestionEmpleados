@@ -44,7 +44,7 @@ namespace GestionEmpleados
                 }
                 else
                 {
-                    MessageBox.Show("Identificacion o contraseña incorrectos, por favor intente de nuevo.", "Error de inicio de sesión", MessageBoxButtons.OK, MessageBoxIcon.Error); ;
+                    MessageBox.Show("Identificacion o contraseña incorrectos, por favor intente de nuevo.", "Error de inicio de sesión", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtContrasenna.Text = "";
                     txtIdentificacion.Text = string.Empty;
                     txtIdentificacion.Focus();
