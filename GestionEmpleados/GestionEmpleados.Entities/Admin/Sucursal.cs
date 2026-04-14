@@ -11,6 +11,6 @@ namespace GestionEmpleados.Entities.Admin
         public string? Nombre { get; set; }
         public string? Direccion { get; set; }
         public string? Telefono { get; set; }
-        public DateTime FechaCreacion { get; set; } = DateTime.Now;
+        public DateTime FechaCreacion { get; set; }
     }
 }

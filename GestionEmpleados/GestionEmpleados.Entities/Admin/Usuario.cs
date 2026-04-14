@@ -8,13 +8,14 @@ namespace GestionEmpleados.Entities.Admin
     {
         public int IdUsuario { get; set; }
         public Sucursal? IdSucursal { get; set; }
-        public Rol? IdRol { get; set; }
         public string? Nombre { get; set; }
         public string? Apellidos { get; set; }
         public string? Identificacion { get; set; }
+        public Rol? IdRol { get; set; }
         public string? Correo { get; set; }
-        public string? Contrasena { get; set; }
-        public DateTime FechaCreacion { get; set; } = DateTime.Now;
+        public string? Contrasenna { get; set; }
+        public DateTime FechaCreacion { get; set; }
+        public bool Activo { get; set; } = true;
     }
 }
     

@@ -38,14 +38,15 @@
             gridUsuarios = new DataGridView();
             Editar = new DataGridViewButtonColumn();
             Eliminar = new DataGridViewButtonColumn();
-            Id = new DataGridViewTextBoxColumn();
-            TipoUsuarioSysId = new DataGridViewTextBoxColumn();
+            IdUsuario = new DataGridViewTextBoxColumn();
+            IdSucursal = new DataGridViewTextBoxColumn();
             Nombre = new DataGridViewTextBoxColumn();
+            Apellidos = new DataGridViewTextBoxColumn();
+            Identificacion = new DataGridViewTextBoxColumn();
+            IdRol = new DataGridViewTextBoxColumn();
             Correo = new DataGridViewTextBoxColumn();
-            Genero = new DataGridViewTextBoxColumn();
-            FechaNacimiento = new DataGridViewTextBoxColumn();
+            Contrasenna = new DataGridViewTextBoxColumn();
             FechaCreacion = new DataGridViewTextBoxColumn();
-            Password = new DataGridViewTextBoxColumn();
             Activo = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)gridUsuarios).BeginInit();
             SuspendLayout();
@@ -89,13 +90,14 @@
             // 
             // btnAgregar
             // 
-            btnAgregar.Location = new Point(757, 76);
+            btnAgregar.Location = new Point(999, 75);
             btnAgregar.Margin = new Padding(3, 2, 3, 2);
             btnAgregar.Name = "btnAgregar";
             btnAgregar.Size = new Size(112, 22);
             btnAgregar.TabIndex = 12;
             btnAgregar.Text = "AGREGAR";
             btnAgregar.UseVisualStyleBackColor = true;
+            btnAgregar.Click += btnAgregar_Click;
             // 
             // txtBuscar
             // 
@@ -120,13 +122,14 @@
             gridUsuarios.AllowUserToAddRows = false;
             gridUsuarios.BackgroundColor = Color.White;
             gridUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            gridUsuarios.Columns.AddRange(new DataGridViewColumn[] { Editar, Eliminar, Id, TipoUsuarioSysId, Nombre, Correo, Genero, FechaNacimiento, FechaCreacion, Password, Activo });
-            gridUsuarios.Location = new Point(30, 106);
+            gridUsuarios.Columns.AddRange(new DataGridViewColumn[] { Editar, Eliminar, IdUsuario, IdSucursal, Nombre, Apellidos, Identificacion, IdRol, Correo, Contrasenna, FechaCreacion, Activo });
+            gridUsuarios.Location = new Point(31, 103);
             gridUsuarios.Margin = new Padding(3, 2, 3, 2);
             gridUsuarios.Name = "gridUsuarios";
             gridUsuarios.RowHeadersWidth = 51;
-            gridUsuarios.Size = new Size(838, 372);
+            gridUsuarios.Size = new Size(1080, 372);
             gridUsuarios.TabIndex = 9;
+            gridUsuarios.CellContentClick += gridUsuarios_CellContentClick;
             // 
             // Editar
             // 
@@ -146,23 +149,21 @@
             Eliminar.UseColumnTextForButtonValue = true;
             Eliminar.Width = 75;
             // 
-            // Id
+            // IdUsuario
             // 
-            Id.DataPropertyName = "Id";
-            Id.HeaderText = "Id";
-            Id.MinimumWidth = 6;
-            Id.Name = "Id";
-            Id.Visible = false;
-            Id.Width = 125;
+            IdUsuario.DataPropertyName = "IdUsuario";
+            IdUsuario.HeaderText = "Id Usuario";
+            IdUsuario.MinimumWidth = 6;
+            IdUsuario.Name = "IdUsuario";
+            IdUsuario.Visible = false;
+            IdUsuario.Width = 125;
             // 
-            // TipoUsuarioSysId
+            // IdSucursal
             // 
-            TipoUsuarioSysId.DataPropertyName = "TipoUsuarioSysId";
-            TipoUsuarioSysId.HeaderText = "TipoUsuarioSysId";
-            TipoUsuarioSysId.MinimumWidth = 6;
-            TipoUsuarioSysId.Name = "TipoUsuarioSysId";
-            TipoUsuarioSysId.Visible = false;
-            TipoUsuarioSysId.Width = 125;
+            IdSucursal.DataPropertyName = "IdSucursal";
+            IdSucursal.HeaderText = "IdSucursal";
+            IdSucursal.Name = "IdSucursal";
+            IdSucursal.Visible = false;
             // 
             // Nombre
             // 
@@ -172,6 +173,28 @@
             Nombre.MinimumWidth = 6;
             Nombre.Name = "Nombre";
             // 
+            // Apellidos
+            // 
+            Apellidos.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Apellidos.DataPropertyName = "Apellidos";
+            Apellidos.HeaderText = "Apellidos";
+            Apellidos.Name = "Apellidos";
+            // 
+            // Identificacion
+            // 
+            Identificacion.DataPropertyName = "Identificacion";
+            Identificacion.HeaderText = "Identificacion";
+            Identificacion.Name = "Identificacion";
+            // 
+            // IdRol
+            // 
+            IdRol.DataPropertyName = "IdRol";
+            IdRol.HeaderText = "Rol";
+            IdRol.MinimumWidth = 6;
+            IdRol.Name = "IdRol";
+            IdRol.Visible = false;
+            IdRol.Width = 125;
+            // 
             // Correo
             // 
             Correo.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -180,21 +203,14 @@
             Correo.MinimumWidth = 6;
             Correo.Name = "Correo";
             // 
-            // Genero
+            // Contrasenna
             // 
-            Genero.DataPropertyName = "Genero";
-            Genero.HeaderText = "Genero";
-            Genero.MinimumWidth = 6;
-            Genero.Name = "Genero";
-            Genero.Width = 80;
-            // 
-            // FechaNacimiento
-            // 
-            FechaNacimiento.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            FechaNacimiento.DataPropertyName = "FechaNacimiento";
-            FechaNacimiento.HeaderText = "Fecha de Nacimiento";
-            FechaNacimiento.MinimumWidth = 6;
-            FechaNacimiento.Name = "FechaNacimiento";
+            Contrasenna.DataPropertyName = "Contrasenna";
+            Contrasenna.HeaderText = "Contraseña";
+            Contrasenna.MinimumWidth = 6;
+            Contrasenna.Name = "Contrasenna";
+            Contrasenna.Visible = false;
+            Contrasenna.Width = 125;
             // 
             // FechaCreacion
             // 
@@ -205,29 +221,19 @@
             FechaCreacion.Visible = false;
             FechaCreacion.Width = 125;
             // 
-            // Password
-            // 
-            Password.DataPropertyName = "Password";
-            Password.HeaderText = "Password";
-            Password.MinimumWidth = 6;
-            Password.Name = "Password";
-            Password.Visible = false;
-            Password.Width = 125;
-            // 
             // Activo
             // 
             Activo.DataPropertyName = "Activo";
             Activo.HeaderText = "Activo";
             Activo.MinimumWidth = 6;
             Activo.Name = "Activo";
-            Activo.Visible = false;
-            Activo.Width = 125;
+            Activo.Width = 80;
             // 
             // frmUsuarios
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(922, 521);
+            ClientSize = new Size(1172, 525);
             Controls.Add(btnLimpiarBuscador);
             Controls.Add(btnBuscar);
             Controls.Add(cmbTipoUsuario);
@@ -238,6 +244,7 @@
             Controls.Add(gridUsuarios);
             Name = "frmUsuarios";
             Text = "frmUsuarios";
+            Load += frmUsuarios_Load;
             ((System.ComponentModel.ISupportInitialize)gridUsuarios).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -255,14 +262,15 @@
         private DataGridView gridUsuarios;
         private DataGridViewButtonColumn Editar;
         private DataGridViewButtonColumn Eliminar;
-        private DataGridViewTextBoxColumn Id;
-        private DataGridViewTextBoxColumn TipoUsuarioSysId;
+        private DataGridViewTextBoxColumn IdUsuario;
+        private DataGridViewTextBoxColumn IdSucursal;
         private DataGridViewTextBoxColumn Nombre;
+        private DataGridViewTextBoxColumn Apellidos;
+        private DataGridViewTextBoxColumn Identificacion;
+        private DataGridViewTextBoxColumn IdRol;
         private DataGridViewTextBoxColumn Correo;
-        private DataGridViewTextBoxColumn Genero;
-        private DataGridViewTextBoxColumn FechaNacimiento;
+        private DataGridViewTextBoxColumn Contrasenna;
         private DataGridViewTextBoxColumn FechaCreacion;
-        private DataGridViewTextBoxColumn Password;
         private DataGridViewTextBoxColumn Activo;
     }
 }

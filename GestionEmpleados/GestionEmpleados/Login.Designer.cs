@@ -30,9 +30,9 @@
         {
             cbxVerContrasenna = new CheckBox();
             txtContrasenna = new TextBox();
-            txtUsuario = new TextBox();
+            txtIdentificacion = new TextBox();
             lblContrasenna = new Label();
-            lblNombre = new Label();
+            lblIdentificacion = new Label();
             btnLogin = new Button();
             SuspendLayout();
             // 
@@ -45,6 +45,7 @@
             cbxVerContrasenna.TabIndex = 9;
             cbxVerContrasenna.Text = "Ver Contraseña";
             cbxVerContrasenna.UseVisualStyleBackColor = true;
+            cbxVerContrasenna.CheckedChanged += cbxVerContrasenna_CheckedChanged;
             // 
             // txtContrasenna
             // 
@@ -52,40 +53,40 @@
             txtContrasenna.Margin = new Padding(3, 2, 3, 2);
             txtContrasenna.MaxLength = 16;
             txtContrasenna.Name = "txtContrasenna";
-            txtContrasenna.PlaceholderText = "ingrese su password";
+            txtContrasenna.PlaceholderText = "Ingrese su Contraseña";
             txtContrasenna.Size = new Size(192, 23);
             txtContrasenna.TabIndex = 7;
             txtContrasenna.TextAlign = HorizontalAlignment.Center;
             txtContrasenna.UseSystemPasswordChar = true;
             // 
-            // txtUsuario
+            // txtIdentificacion
             // 
-            txtUsuario.Location = new Point(138, 53);
-            txtUsuario.Margin = new Padding(3, 2, 3, 2);
-            txtUsuario.MaxLength = 128;
-            txtUsuario.Name = "txtUsuario";
-            txtUsuario.PlaceholderText = "ingrese su usuario";
-            txtUsuario.Size = new Size(192, 23);
-            txtUsuario.TabIndex = 5;
-            txtUsuario.TextAlign = HorizontalAlignment.Center;
+            txtIdentificacion.Location = new Point(138, 53);
+            txtIdentificacion.Margin = new Padding(3, 2, 3, 2);
+            txtIdentificacion.MaxLength = 128;
+            txtIdentificacion.Name = "txtIdentificacion";
+            txtIdentificacion.PlaceholderText = "Ingrese su Identificacion";
+            txtIdentificacion.Size = new Size(192, 23);
+            txtIdentificacion.TabIndex = 5;
+            txtIdentificacion.TextAlign = HorizontalAlignment.Center;
             // 
             // lblContrasenna
             // 
             lblContrasenna.AutoSize = true;
             lblContrasenna.Location = new Point(60, 94);
             lblContrasenna.Name = "lblContrasenna";
-            lblContrasenna.Size = new Size(67, 15);
+            lblContrasenna.Size = new Size(70, 15);
             lblContrasenna.TabIndex = 8;
-            lblContrasenna.Text = "Contraseña";
+            lblContrasenna.Text = "Contraseña:";
             // 
-            // lblNombre
+            // lblIdentificacion
             // 
-            lblNombre.AutoSize = true;
-            lblNombre.Location = new Point(60, 58);
-            lblNombre.Name = "lblNombre";
-            lblNombre.Size = new Size(47, 15);
-            lblNombre.TabIndex = 6;
-            lblNombre.Text = "Usuario";
+            lblIdentificacion.AutoSize = true;
+            lblIdentificacion.Location = new Point(45, 56);
+            lblIdentificacion.Name = "lblIdentificacion";
+            lblIdentificacion.Size = new Size(82, 15);
+            lblIdentificacion.TabIndex = 6;
+            lblIdentificacion.Text = "Identificacion:";
             // 
             // btnLogin
             // 
@@ -96,17 +97,18 @@
             btnLogin.TabIndex = 4;
             btnLogin.Text = "Login";
             btnLogin.UseVisualStyleBackColor = true;
+            btnLogin.Click += btnLogin_Click;
             // 
             // Login
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(418, 274);
+            ClientSize = new Size(409, 244);
             Controls.Add(cbxVerContrasenna);
             Controls.Add(txtContrasenna);
-            Controls.Add(txtUsuario);
+            Controls.Add(txtIdentificacion);
             Controls.Add(lblContrasenna);
-            Controls.Add(lblNombre);
+            Controls.Add(lblIdentificacion);
             Controls.Add(btnLogin);
             Name = "Login";
             Text = "Login";
@@ -119,9 +121,9 @@
 
         private CheckBox cbxVerContrasenna;
         private TextBox txtContrasenna;
-        private TextBox txtUsuario;
+        private TextBox txtIdentificacion;
         private Label lblContrasenna;
-        private Label lblNombre;
+        private Label lblIdentificacion;
         private Button btnLogin;
     }
 }

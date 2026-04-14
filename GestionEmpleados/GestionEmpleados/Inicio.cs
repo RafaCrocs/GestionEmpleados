@@ -1,6 +1,8 @@
 ﻿using System;
 using GestionEmpleados.Forms.Admin;
 using GestionEmpleados.Forms.Empleados;
+using GestionEmpleados.Entities.Admin;
+using System.Windows.Forms;
 
 namespace GestionEmpleados
 {
@@ -11,6 +13,15 @@ namespace GestionEmpleados
             InitializeComponent();
         }
 
+        private static Usuario? UsuarioActual;
+
+        public Inicio(Usuario usuario)
+        {
+            InitializeComponent();
+            UsuarioActual = usuario;
+        }
+
+        #region eventos
         private void usuariosSysSubMenuItem_Click(object sender, EventArgs e)
         {
             frmUsuarios menuUsuarios = new frmUsuarios();
@@ -22,5 +33,6 @@ namespace GestionEmpleados
             frmEmpleados menuEmpleados = new frmEmpleados();
             menuEmpleados.ShowDialog(this);
         }
+        #endregion eventos
     }
 }
