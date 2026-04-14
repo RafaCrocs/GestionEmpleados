@@ -84,11 +84,11 @@ namespace GestionEmpleados.Forms.Admin
             {
                 if (usuariosBL.Usuarios_Insertar(modal.NuevoUsuario))
                 {
-                    MessageBox.Show("Su usuario ha sido Agregado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Su usuario ha sido agregado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    MessageBox.Show("Su usuario ha no sido insertado correctamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Su usuario no ha sido insertado correctamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             CargarGrid();
