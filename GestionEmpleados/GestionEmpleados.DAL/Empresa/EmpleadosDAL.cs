@@ -1,6 +1,7 @@
 ﻿using GestionEmpleados.Entities.Admin;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
@@ -51,31 +52,48 @@ namespace GestionEmpleados.DAL.Empresa
 
         }
 
-        public bool Empleados_Insertar(Empleado nuevoEmpleado)
+        public bool Empleados_Insertar(Empleado nuevoEmpleado, out string mensaje)
         {
-            string query = @"INSERT INTO Empleados (IdSucursal, Identificacion, Nombre, Apellidos, Telefono, Correo, Contrasenna, FechaNacimiento, IdPuesto, Bonificacion, PagaSeguro, Estado)
-                             VALUES (@IdSucursal, @Identificacion, @Nombre, @Apellidos, @Telefono, @Correo, @Contrasenna, @FechaNacimiento, @IdPuesto, @Bonificacion, @PagaSeguro, @Estado)";
             bool resultado = false;
-            using (SqlConnection conn = new SqlConnection(CadenaConexion.Cadena))
-            using (SqlCommand cmd = new SqlCommand(query, conn))
+            mensaje = string.Empty;
+            try
             {
-                cmd.Parameters.AddWithValue("@IdSucursal", nuevoEmpleado.IdSucursal.IdSucursal);
-                cmd.Parameters.AddWithValue("@Identificacion", nuevoEmpleado.Identificacion);
-                cmd.Parameters.AddWithValue("@Nombre", nuevoEmpleado.Nombre);
-                cmd.Parameters.AddWithValue("@Apellidos", nuevoEmpleado.Apellidos);
-                cmd.Parameters.AddWithValue("@Telefono", nuevoEmpleado.Telefono);
-                cmd.Parameters.AddWithValue("@Correo", nuevoEmpleado.Correo);
-                cmd.Parameters.AddWithValue("@Contrasenna", nuevoEmpleado.Contrasenna);
-                cmd.Parameters.AddWithValue("@FechaNacimiento", nuevoEmpleado.FechaNacimiento);
-                cmd.Parameters.AddWithValue("@IdPuesto", nuevoEmpleado.IdPuesto.IdPuesto);
-                cmd.Parameters.AddWithValue("@Bonificacion", nuevoEmpleado.Bonificacion);
-                cmd.Parameters.AddWithValue("@PagaSeguro", nuevoEmpleado.PagaSeguro);
-                cmd.Parameters.AddWithValue("@Estado", nuevoEmpleado.Estado);
-                conn.Open();
-                resultado = cmd.ExecuteNonQuery() > 0;
-                conn.Close();
-                return resultado;
+                using (SqlConnection conn = new SqlConnection(CadenaConexion.Cadena))
+                using (SqlCommand cmd = new SqlCommand("SP_InsertarEmpleado", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@IdSucursal", nuevoEmpleado.IdSucursal.IdSucursal);
+                    cmd.Parameters.AddWithValue("@Identificacion", nuevoEmpleado.Identificacion);
+                    cmd.Parameters.AddWithValue("@Nombre", nuevoEmpleado.Nombre);
+                    cmd.Parameters.AddWithValue("@Apellidos", nuevoEmpleado.Apellidos);
+                    cmd.Parameters.AddWithValue("@Telefono", nuevoEmpleado.Telefono);
+                    cmd.Parameters.AddWithValue("@Correo", nuevoEmpleado.Correo);
+                    cmd.Parameters.AddWithValue("@Contrasenna", nuevoEmpleado.Contrasenna);
+                    cmd.Parameters.AddWithValue("@FechaNacimiento", nuevoEmpleado.FechaNacimiento);
+                    cmd.Parameters.AddWithValue("@IdPuesto", nuevoEmpleado.IdPuesto.IdPuesto);
+                    cmd.Parameters.AddWithValue("@Bonificacion", nuevoEmpleado.Bonificacion);
+                    cmd.Parameters.AddWithValue("@PagaSeguro", nuevoEmpleado.PagaSeguro);
+                    cmd.Parameters.AddWithValue("@Estado", nuevoEmpleado.Estado);
+
+                    cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
+                    mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+
+                    
+
+                }
             }
+            catch(Exception ex)
+            {
+                mensaje = $"Error al insertar el empleado: {ex.Message}";
+                resultado = false;
+            }
+            return resultado;
         }
 
         public bool Empleados_Editar(Empleado empleadoAEditar)

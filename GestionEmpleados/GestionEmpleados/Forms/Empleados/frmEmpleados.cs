@@ -112,13 +112,13 @@ namespace GestionEmpleados.Forms.Empleados
             modal.ShowDialog(this);
             if (modal.DialogResult == DialogResult.OK)
             {
-                if (empleadosBL.Empleados_Insertar(modal.NuevoEmpleado))
+                if (empleadosBL.Empleados_Insertar(modal.NuevoEmpleado, out string mensaje))
                 {
                     MessageBox.Show("Su empleado ha sido agregado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    MessageBox.Show("Su empleado no ha sido insertado correctamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Ha ocurrido un problema: {mensaje}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             cargarGrid();

@@ -24,8 +24,6 @@ namespace GestionEmpleados.Forms.Modals
         private List<Sucursal> sucursales = new List<Sucursal>();
         private PuestosBL puestosBL = new PuestosBL();
         private List<Puesto> puestos = new List<Puesto>();
-        private List<Empleado> listaEmpleados = new List<Empleado>();
-        private EmpleadosBL empleadosBL = new EmpleadosBL();
 
         public Empleado NuevoEmpleado;
 
@@ -62,12 +60,6 @@ namespace GestionEmpleados.Forms.Modals
             cmbEstado.DataSource = new List<string>() { "Activo", "Inactivo", "Vacaciones", "Incapacidad" };
         }
 
-        private List<Empleado> cargarEmpleados()
-        {
-            listaEmpleados = empleadosBL.Empleados_ObtenerTodos();
-            return listaEmpleados;
-        }
-
         private void EmpleadosModal_Load(object sender, EventArgs e)
         {
             CargarCombos();
@@ -87,17 +79,9 @@ namespace GestionEmpleados.Forms.Modals
                 MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            listaEmpleados = cargarEmpleados();
 
-            //Verificar si el empleado ya existe con Identificacion
-            for (int i = 0; i < listaEmpleados.Count; i++)
-            {
-                if (listaEmpleados[i].Identificacion == txtIdentificacion.Text)
-                {
-                    MessageBox.Show("El empleado ya existe. La Identificacion ya está registrada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-            }
+
+            
             if (EmpleadoAEditar == null)
             {
 

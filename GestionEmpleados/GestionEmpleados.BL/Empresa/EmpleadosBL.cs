@@ -15,9 +15,9 @@ namespace GestionEmpleados.BL.Empresa
             return empleadosDAL.Empleados_ObtenerTodos();
         }
         
-        public bool Empleados_Insertar(Empleado nuevo)
+        public bool Empleados_Insertar(Empleado nuevo, out string mensaje)
         {
-            return empleadosDAL.Empleados_Insertar(nuevo);
+            return empleadosDAL.Empleados_Insertar(nuevo, out mensaje);
         }
         
         public bool Empleados_Editar(Empleado editado)
