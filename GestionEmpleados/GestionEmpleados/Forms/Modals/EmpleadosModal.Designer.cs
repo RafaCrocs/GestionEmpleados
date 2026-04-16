@@ -244,6 +244,7 @@
             // 
             // dateFechaNacimiento
             // 
+            dateFechaNacimiento.Format = DateTimePickerFormat.Short;
             dateFechaNacimiento.Location = new Point(737, 110);
             dateFechaNacimiento.Name = "dateFechaNacimiento";
             dateFechaNacimiento.Size = new Size(200, 23);

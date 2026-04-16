@@ -51,11 +51,13 @@ namespace GestionEmpleados.Forms.Modals
             cmbSucursal.DataSource = sucursales;
             cmbSucursal.DisplayMember = "Nombre";
             cmbSucursal.ValueMember = "IdSucursal";
+            cmbSucursal.SelectedIndex = -1;
 
             puestos = puestosBL.Puestos_ObtenerTodos();
             cmbPuestos.DataSource = puestos;
             cmbPuestos.DisplayMember = "Nombre";
             cmbPuestos.ValueMember = "IdPuesto";
+            cmbPuestos.SelectedIndex = -1;
 
             cmbEstado.DataSource = new List<string>() { "Activo", "Inactivo", "Vacaciones", "Incapacidad" };
         }
@@ -79,6 +81,18 @@ namespace GestionEmpleados.Forms.Modals
                 MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            if(!decimal.TryParse(txtBonificacion.Text, out decimal bonificacion))
+            {
+                MessageBox.Show("La bonificación debe ser un número decimal.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (cmbPuestos.SelectedIndex == -1 || cmbSucursal.SelectedIndex == -1)
+            {
+                MessageBox.Show("Asegurese seleccionar el Puesto y la Sucursal del empleado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            
 
 
             

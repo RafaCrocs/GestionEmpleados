@@ -10,29 +10,46 @@ namespace GestionEmpleados.DAL.Empresa
     {
         public List<Adelanto> Adelantos_ObtenerTodos()
         {
-            string query = "SELECT * FROM Adelantos";
-            List<Adelanto> lista = new List<Adelanto>();
+            string query = @"SELECT 
+                                a.IdAdelanto,
+                                e.IdEmpleado,
+                                e.Nombre + ' ' + e.Apellidos + ' ' + e.Identificacion AS Nombre,
+                                a.Monto,
+                                a.Fecha,
+                                a.Detalle
+                            FROM dbo.Adelantos a
+                            INNER JOIN dbo.Empleados e ON a.IdEmpleado = e.IdEmpleado
+                            ORDER BY a.IdAdelanto DESC";
 
-            using (SqlConnection conn = new SqlConnection(CadenaConexion.Cadena))
-            using (SqlCommand cmd = new SqlCommand(query, conn))
+            List<Adelanto> lista = new List<Adelanto>();
+            try
             {
-                conn.Open();
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (SqlConnection conn = new SqlConnection(CadenaConexion.Cadena))
+                using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    while (reader.Read())
+                    conn.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        Adelanto nuevo = new Adelanto()
+                        while (reader.Read())
                         {
-                            IdAdelanto = Convert.ToInt32(reader["IdAdelanto"]),
-                            IdEmpleado = new Empleado() { IdEmpleado = Convert.ToInt32(reader["IdEmpleado"]) },
-                            Monto = Convert.ToDecimal(reader["Monto"]),
-                            Fecha = Convert.ToDateTime(reader["Fecha"]),
-                            Detalle = reader["Descripcion"].ToString()
-                        };
-                        lista.Add(nuevo);
+                            Adelanto adelanto = new Adelanto()
+                            {
+                                IdAdelanto = Convert.ToInt32(reader["IdAdelanto"]),
+                                IdEmpleado = new Empleado() { IdEmpleado = Convert.ToInt32(reader["IdEmpleado"]),
+                                                                Nombre = reader["Nombre"].ToString() },
+                                Monto   = Convert.ToDecimal(reader["Monto"]),
+                                Fecha   = Convert.ToDateTime(reader["Fecha"]),
+                                Detalle = reader["Detalle"].ToString()
+                            };
+                            lista.Add(adelanto);
+                        }
                     }
+                    conn.Close();
                 }
-                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
             return lista;
         }
@@ -49,8 +66,8 @@ namespace GestionEmpleados.DAL.Empresa
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("@IdEmpleado", nuevoAdelanto.IdEmpleado.IdEmpleado);
+                    cmd.Parameters.AddWithValue("@NombreEmpleado", nuevoAdelanto.NombreEmpleado);
                     cmd.Parameters.AddWithValue("@Monto", nuevoAdelanto.Monto);
-                    cmd.Parameters.AddWithValue("@Fecha", nuevoAdelanto.Fecha);
                     cmd.Parameters.AddWithValue("@Detalle", nuevoAdelanto.Detalle);
 
                     cmd.Parameters.Add("@Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
@@ -83,7 +100,8 @@ namespace GestionEmpleados.DAL.Empresa
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("@IdAdelanto", adelantoAEditar.IdAdelanto);
-                    cmd.Parameters.AddWithValue("@IdEmpleado", adelantoAEditar.IdEmpleado.IdEmpleado);
+                    cmd.Parameters.AddWithValue("@IdEmpleado", adelantoAEditar.IdEmpleado?.IdEmpleado);
+                    cmd.Parameters.AddWithValue("@NombreEmpleado", adelantoAEditar.NombreEmpleado);
                     cmd.Parameters.AddWithValue("@Monto", adelantoAEditar.Monto);
                     cmd.Parameters.AddWithValue("@Fecha", adelantoAEditar.Fecha);
                     cmd.Parameters.AddWithValue("@Detalle", adelantoAEditar.Detalle);

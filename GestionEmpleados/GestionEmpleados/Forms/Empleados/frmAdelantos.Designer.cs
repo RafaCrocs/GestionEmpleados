@@ -31,18 +31,18 @@
             btnLimpiarBuscador = new Button();
             cmbPuestos = new ComboBox();
             lblPuesto = new Label();
-            btnAgregar = new Button();
             txtBuscar = new TextBox();
             lblBuscar = new Label();
-            gridEmpleados = new DataGridView();
-            Editar = new DataGridViewButtonColumn();
+            gridAdelantos = new DataGridView();
+            btnAgregar = new Button();
             Eliminar = new DataGridViewButtonColumn();
             IdAdelanto = new DataGridViewTextBoxColumn();
             IdEmpleado = new DataGridViewTextBoxColumn();
+            NombreEmpleado = new DataGridViewTextBoxColumn();
             Monto = new DataGridViewTextBoxColumn();
             Fecha = new DataGridViewTextBoxColumn();
             Detalle = new DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)gridEmpleados).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)gridAdelantos).BeginInit();
             SuspendLayout();
             // 
             // btnLimpiarBuscador
@@ -72,16 +72,6 @@
             lblPuesto.TabIndex = 25;
             lblPuesto.Text = "Puesto:";
             // 
-            // btnAgregar
-            // 
-            btnAgregar.Location = new Point(805, 82);
-            btnAgregar.Margin = new Padding(3, 2, 3, 2);
-            btnAgregar.Name = "btnAgregar";
-            btnAgregar.Size = new Size(112, 22);
-            btnAgregar.TabIndex = 24;
-            btnAgregar.Text = "AGREGAR";
-            btnAgregar.UseVisualStyleBackColor = true;
-            // 
             // txtBuscar
             // 
             txtBuscar.Location = new Point(120, 90);
@@ -100,27 +90,30 @@
             lblBuscar.TabIndex = 22;
             lblBuscar.Text = "BUSCAR:";
             // 
-            // gridEmpleados
+            // gridAdelantos
             // 
-            gridEmpleados.AllowUserToAddRows = false;
-            gridEmpleados.BackgroundColor = Color.White;
-            gridEmpleados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            gridEmpleados.Columns.AddRange(new DataGridViewColumn[] { Editar, Eliminar, IdAdelanto, IdEmpleado, Monto, Fecha, Detalle });
-            gridEmpleados.Location = new Point(58, 129);
-            gridEmpleados.Margin = new Padding(3, 2, 3, 2);
-            gridEmpleados.Name = "gridEmpleados";
-            gridEmpleados.RowHeadersWidth = 51;
-            gridEmpleados.Size = new Size(858, 372);
-            gridEmpleados.TabIndex = 21;
+            gridAdelantos.AllowUserToAddRows = false;
+            gridAdelantos.BackgroundColor = Color.White;
+            gridAdelantos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            gridAdelantos.Columns.AddRange(new DataGridViewColumn[] { Eliminar, IdAdelanto, IdEmpleado, NombreEmpleado, Monto, Fecha, Detalle });
+            gridAdelantos.Location = new Point(58, 129);
+            gridAdelantos.Margin = new Padding(3, 2, 3, 2);
+            gridAdelantos.Name = "gridAdelantos";
+            gridAdelantos.RowHeadersWidth = 51;
+            gridAdelantos.Size = new Size(858, 372);
+            gridAdelantos.TabIndex = 21;
+            gridAdelantos.CellContentClick += gridAdelantos_CellContentClick;
             // 
-            // Editar
+            // btnAgregar
             // 
-            Editar.HeaderText = "";
-            Editar.MinimumWidth = 6;
-            Editar.Name = "Editar";
-            Editar.Text = "Editar";
-            Editar.UseColumnTextForButtonValue = true;
-            Editar.Width = 75;
+            btnAgregar.Location = new Point(804, 96);
+            btnAgregar.Margin = new Padding(3, 2, 3, 2);
+            btnAgregar.Name = "btnAgregar";
+            btnAgregar.Size = new Size(112, 22);
+            btnAgregar.TabIndex = 28;
+            btnAgregar.Text = "AGREGAR";
+            btnAgregar.UseVisualStyleBackColor = true;
+            btnAgregar.Click += btnAgregar_Click;
             // 
             // Eliminar
             // 
@@ -145,6 +138,14 @@
             IdEmpleado.DataPropertyName = "IdEmpleado";
             IdEmpleado.HeaderText = "IdEmpleado";
             IdEmpleado.Name = "IdEmpleado";
+            IdEmpleado.Visible = false;
+            // 
+            // NombreEmpleado
+            // 
+            NombreEmpleado.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            NombreEmpleado.DataPropertyName = "NombreEmpleado";
+            NombreEmpleado.HeaderText = "Nombre";
+            NombreEmpleado.Name = "NombreEmpleado";
             // 
             // Monto
             // 
@@ -154,7 +155,6 @@
             // 
             // Fecha
             // 
-            Fecha.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             Fecha.DataPropertyName = "Fecha";
             Fecha.HeaderText = "Fecha";
             Fecha.MinimumWidth = 6;
@@ -173,16 +173,17 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1008, 548);
+            Controls.Add(btnAgregar);
             Controls.Add(btnLimpiarBuscador);
             Controls.Add(cmbPuestos);
             Controls.Add(lblPuesto);
-            Controls.Add(btnAgregar);
             Controls.Add(txtBuscar);
             Controls.Add(lblBuscar);
-            Controls.Add(gridEmpleados);
+            Controls.Add(gridAdelantos);
             Name = "frmAdelantos";
             Text = "frmAdelantos";
-            ((System.ComponentModel.ISupportInitialize)gridEmpleados).EndInit();
+            Load += frmAdelantos_Load;
+            ((System.ComponentModel.ISupportInitialize)gridAdelantos).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -192,14 +193,14 @@
         private Button btnLimpiarBuscador;
         private ComboBox cmbPuestos;
         private Label lblPuesto;
-        private Button btnAgregar;
         private TextBox txtBuscar;
         private Label lblBuscar;
-        private DataGridView gridEmpleados;
-        private DataGridViewButtonColumn Editar;
+        private DataGridView gridAdelantos;
+        private Button btnAgregar;
         private DataGridViewButtonColumn Eliminar;
         private DataGridViewTextBoxColumn IdAdelanto;
         private DataGridViewTextBoxColumn IdEmpleado;
+        private DataGridViewTextBoxColumn NombreEmpleado;
         private DataGridViewTextBoxColumn Monto;
         private DataGridViewTextBoxColumn Fecha;
         private DataGridViewTextBoxColumn Detalle;

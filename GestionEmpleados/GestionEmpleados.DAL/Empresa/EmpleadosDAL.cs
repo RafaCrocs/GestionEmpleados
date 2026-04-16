@@ -124,19 +124,37 @@ namespace GestionEmpleados.DAL.Empresa
             }
         }
 
-        public bool Empleados_Eliminar(int idEmpleado)
+        public bool Empleados_Eliminar(int idEmpleado, out string mensaje)
         {
-            string query = "DELETE FROM Empleados WHERE IdEmpleado = @IdEmpleado";
             bool resultado = false;
-            using (SqlConnection conn = new SqlConnection(CadenaConexion.Cadena))
-            using (SqlCommand cmd = new SqlCommand(query, conn))
+            mensaje = string.Empty;
+            try
             {
-                cmd.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
-                conn.Open();
-                resultado = cmd.ExecuteNonQuery() > 0;
-                conn.Close();
-                return resultado;
+                using (SqlConnection conn = new SqlConnection(CadenaConexion.Cadena))
+                using (SqlCommand cmd = new SqlCommand("SP_EliminarEmpleado", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
+
+                    cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
+                    mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+
+
+
+                }
             }
+            catch (Exception ex)
+            {
+                mensaje = $"Error al eliminar el empleado: {ex.Message}";
+                resultado = false;
+            }
+            return resultado;
         }
     }
 }
