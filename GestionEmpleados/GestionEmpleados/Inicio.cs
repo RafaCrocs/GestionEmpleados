@@ -33,6 +33,12 @@ namespace GestionEmpleados
             frmEmpleados menuEmpleados = new frmEmpleados();
             menuEmpleados.ShowDialog(this);
         }
+        private void AdelantosSubMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAdelantos menuAdelantos = new frmAdelantos();
+            menuAdelantos.ShowDialog(this);
+        }
         #endregion eventos
+
     }
 }

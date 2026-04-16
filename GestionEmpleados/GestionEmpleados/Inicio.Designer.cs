@@ -86,6 +86,7 @@
             AdelantosSubMenuItem.Name = "AdelantosSubMenuItem";
             AdelantosSubMenuItem.Size = new Size(197, 34);
             AdelantosSubMenuItem.Text = "Adelantos";
+            AdelantosSubMenuItem.Click += AdelantosSubMenuItem_Click;
             // 
             // PrestamosSubMenuItem
             // 

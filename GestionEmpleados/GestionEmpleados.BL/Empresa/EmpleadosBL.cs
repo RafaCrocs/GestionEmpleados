@@ -10,23 +10,23 @@ namespace GestionEmpleados.BL.Empresa
     {
         private EmpleadosDAL empleadosDAL = new EmpleadosDAL();
 
-        public List<Entities.Admin.Empleado> Empleados_ObtenerTodos()
+        public List<Empleado> Empleados_ObtenerTodos()
         {
             return empleadosDAL.Empleados_ObtenerTodos();
         }
         
-        public bool Empleados_Insertar(Empleado nuevo)
+        public bool Empleados_Insertar(Empleado nuevo, out string mensaje)
         {
-            return empleadosDAL.Empleados_Insertar(nuevo);
+            return empleadosDAL.Empleados_Insertar(nuevo, out mensaje);
         }
         
         public bool Empleados_Editar(Empleado editado)
         {
             return empleadosDAL.Empleados_Editar(editado);
         }
-        public bool Empleados_Eliminar(int idEmpleado)
+        public bool Empleados_Eliminar(int idEmpleado, out string mensaje)
         {
-            return empleadosDAL.Empleados_Eliminar(idEmpleado);
+            return empleadosDAL.Empleados_Eliminar(idEmpleado, out mensaje);
         }
     }
 }

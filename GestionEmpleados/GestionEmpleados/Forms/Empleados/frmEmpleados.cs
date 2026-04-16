@@ -66,20 +66,20 @@ namespace GestionEmpleados.Forms.Empleados
                 empleadoAEditar = new Empleado()
                 {
                     IdEmpleado = idSeleccionado,
-                    IdSucursal = (Sucursal)gridEmpleados.Rows[e.RowIndex].Cells[3].Value,
-                    Identificacion = gridEmpleados.Rows[e.RowIndex].Cells[6].Value.ToString(),
-                    Nombre = gridEmpleados.Rows[e.RowIndex].Cells[4].Value.ToString(),
-                    Apellidos = gridEmpleados.Rows[e.RowIndex].Cells[5].Value.ToString(),
-                    Telefono = gridEmpleados.Rows[e.RowIndex].Cells[7].Value.ToString(),
-                    Correo = gridEmpleados.Rows[e.RowIndex].Cells[8].Value.ToString(),
-                    Contrasenna = gridEmpleados.Rows[e.RowIndex].Cells[9].Value.ToString(),
-                    FechaNacimiento = Convert.ToDateTime(gridEmpleados.Rows[e.RowIndex].Cells[10].Value),
-                    FechaIngreso = Convert.ToDateTime(gridEmpleados.Rows[e.RowIndex].Cells[11].Value),
-                    FechaSalida = gridEmpleados.Rows[e.RowIndex].Cells[12].Value == null ? null : (DateTime?)Convert.ToDateTime(gridEmpleados.Rows[e.RowIndex].Cells[12].Value),
-                    IdPuesto = (Puesto)gridEmpleados.Rows[e.RowIndex].Cells[13].Value,
-                    Bonificacion = Convert.ToDecimal(gridEmpleados.Rows[e.RowIndex].Cells[14].Value),
-                    PagaSeguro = Convert.ToBoolean(gridEmpleados.Rows[e.RowIndex].Cells[15].Value),
-                    Estado = gridEmpleados.Rows[e.RowIndex].Cells[16].Value.ToString()
+                    IdSucursal = (Sucursal)gridEmpleados.Rows[e.RowIndex].Cells["IdSucursal"].Value,
+                    Identificacion = gridEmpleados.Rows[e.RowIndex].Cells["Identificacion"].Value.ToString(),
+                    Nombre = gridEmpleados.Rows[e.RowIndex].Cells["Nombre"].Value.ToString(),
+                    Apellidos = gridEmpleados.Rows[e.RowIndex].Cells["Apellidos"].Value.ToString(),
+                    Telefono = gridEmpleados.Rows[e.RowIndex].Cells["Telefono"].Value.ToString(),
+                    Correo = gridEmpleados.Rows[e.RowIndex].Cells["Correo"].Value.ToString(),
+                    Contrasenna = gridEmpleados.Rows[e.RowIndex].Cells["Contrasenna"].Value.ToString(),
+                    FechaNacimiento = Convert.ToDateTime(gridEmpleados.Rows[e.RowIndex].Cells["FechaNacimiento"].Value),
+                    FechaIngreso = Convert.ToDateTime(gridEmpleados.Rows[e.RowIndex].Cells["FechaIngreso"].Value),
+                    FechaSalida = gridEmpleados.Rows[e.RowIndex].Cells["FechaSalida"].Value == null ? null : (DateTime?)Convert.ToDateTime(gridEmpleados.Rows[e.RowIndex].Cells["FechaSalida"].Value),
+                    IdPuesto = (Puesto)gridEmpleados.Rows[e.RowIndex].Cells["IdPuesto"].Value,
+                    Bonificacion = Convert.ToDecimal(gridEmpleados.Rows[e.RowIndex].Cells["Bonificacion"].Value),
+                    PagaSeguro = Convert.ToBoolean(gridEmpleados.Rows[e.RowIndex].Cells["PagaSeguro"].Value),
+                    Estado = gridEmpleados.Rows[e.RowIndex].Cells["Estado"].Value.ToString()
                 };
 
                 EmpleadosModal modal = new EmpleadosModal(empleadoAEditar);
@@ -99,12 +99,21 @@ namespace GestionEmpleados.Forms.Empleados
             {
                 if (MessageBox.Show("Realmente deseas eliminar al empleado?", "ELIMINAR", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    empleadosBL.Empleados_Eliminar(idSeleccionado);
-                    cargarGrid();
+                    if (empleadosBL.Empleados_Eliminar(idSeleccionado, out string mensaje))
+                    {
+                        MessageBox.Show("Su empleado ha sido eliminado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Ha ocurrido un problema: {mensaje}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        cargarGrid();
+                    }
                 }
+                cargarGrid();
             }
-            cargarGrid();
         }
+            
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
@@ -112,13 +121,13 @@ namespace GestionEmpleados.Forms.Empleados
             modal.ShowDialog(this);
             if (modal.DialogResult == DialogResult.OK)
             {
-                if (empleadosBL.Empleados_Insertar(modal.NuevoEmpleado))
+                if (empleadosBL.Empleados_Insertar(modal.NuevoEmpleado, out string mensaje))
                 {
                     MessageBox.Show("Su empleado ha sido agregado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    MessageBox.Show("Su empleado no ha sido insertado correctamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Ha ocurrido un problema: {mensaje}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             cargarGrid();

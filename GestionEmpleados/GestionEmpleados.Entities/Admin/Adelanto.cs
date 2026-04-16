@@ -8,6 +8,7 @@ namespace GestionEmpleados.Entities.Admin
     {
         public int IdAdelanto { get; set; }
         public Empleado? IdEmpleado { get; set; }
+        public string? NombreEmpleado => IdEmpleado != null ? $"{IdEmpleado.Nombre}" : string.Empty;
         public decimal Monto { get; set; }
         public DateTime Fecha { get; set; }
         public string? Detalle { get; set; }
