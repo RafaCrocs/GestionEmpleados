@@ -34,7 +34,6 @@
             txtBuscar = new TextBox();
             lblBuscar = new Label();
             gridAdelantos = new DataGridView();
-            btnAgregar = new Button();
             Eliminar = new DataGridViewButtonColumn();
             IdAdelanto = new DataGridViewTextBoxColumn();
             IdEmpleado = new DataGridViewTextBoxColumn();
@@ -42,6 +41,7 @@
             Monto = new DataGridViewTextBoxColumn();
             Fecha = new DataGridViewTextBoxColumn();
             Detalle = new DataGridViewTextBoxColumn();
+            btnAgregar = new Button();
             ((System.ComponentModel.ISupportInitialize)gridAdelantos).BeginInit();
             SuspendLayout();
             // 
@@ -104,17 +104,6 @@
             gridAdelantos.TabIndex = 21;
             gridAdelantos.CellContentClick += gridAdelantos_CellContentClick;
             // 
-            // btnAgregar
-            // 
-            btnAgregar.Location = new Point(804, 96);
-            btnAgregar.Margin = new Padding(3, 2, 3, 2);
-            btnAgregar.Name = "btnAgregar";
-            btnAgregar.Size = new Size(112, 22);
-            btnAgregar.TabIndex = 28;
-            btnAgregar.Text = "AGREGAR";
-            btnAgregar.UseVisualStyleBackColor = true;
-            btnAgregar.Click += btnAgregar_Click;
-            // 
             // Eliminar
             // 
             Eliminar.HeaderText = "";
@@ -167,6 +156,17 @@
             Detalle.HeaderText = "Detalle";
             Detalle.MinimumWidth = 6;
             Detalle.Name = "Detalle";
+            // 
+            // btnAgregar
+            // 
+            btnAgregar.Location = new Point(804, 96);
+            btnAgregar.Margin = new Padding(3, 2, 3, 2);
+            btnAgregar.Name = "btnAgregar";
+            btnAgregar.Size = new Size(112, 22);
+            btnAgregar.TabIndex = 28;
+            btnAgregar.Text = "AGREGAR";
+            btnAgregar.UseVisualStyleBackColor = true;
+            btnAgregar.Click += btnAgregar_Click;
             // 
             // frmAdelantos
             // 

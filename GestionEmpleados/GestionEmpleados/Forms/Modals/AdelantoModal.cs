@@ -12,7 +12,7 @@ namespace GestionEmpleados.Forms.Modals
 {
     public partial class AdelantoModal : Form
     {
-        public AdelantoModal(Adelanto adelantoAEditar)
+        public AdelantoModal(Adelanto adelantoAEditar = null)
         {
             InitializeComponent();
             AdelantoAEditar = adelantoAEditar;

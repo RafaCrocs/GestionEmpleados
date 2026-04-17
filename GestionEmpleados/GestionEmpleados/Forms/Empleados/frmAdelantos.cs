@@ -36,7 +36,7 @@ namespace GestionEmpleados.Forms.Empleados
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            AdelantoModal modal = new AdelantoModal(null);
+            AdelantoModal modal = new AdelantoModal();
             modal.ShowDialog();
             if (modal.DialogResult == DialogResult.OK)
             {
