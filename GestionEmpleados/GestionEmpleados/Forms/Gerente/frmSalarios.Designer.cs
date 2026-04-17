@@ -29,19 +29,24 @@
         private void InitializeComponent()
         {
             lblEmpleado = new Label();
-            textBox1 = new TextBox();
+            txtAdelantos = new TextBox();
             cmbEmpleados = new ComboBox();
             lblAdelanto = new Label();
             lblPrestamo = new Label();
             txtPrestamo = new TextBox();
             lblSeguro = new Label();
-            textBox2 = new TextBox();
+            txtSeguro = new TextBox();
             lblBonificaciones = new Label();
             txtBonificaciones = new TextBox();
             lblHoras = new Label();
             txtHorasTrabajadas = new TextBox();
             lblHorasExtra = new Label();
             txtHorasExtra = new TextBox();
+            btnBuscar = new Button();
+            lblSalarioFinal = new Label();
+            lblSalarioBase = new Label();
+            txtSalarioBase = new TextBox();
+            btnPagar = new Button();
             SuspendLayout();
             // 
             // lblEmpleado
@@ -53,13 +58,13 @@
             lblEmpleado.TabIndex = 0;
             lblEmpleado.Text = "Empleado: ";
             // 
-            // textBox1
+            // txtAdelantos
             // 
-            textBox1.Enabled = false;
-            textBox1.Location = new Point(358, 80);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(100, 23);
-            textBox1.TabIndex = 1;
+            txtAdelantos.Enabled = false;
+            txtAdelantos.Location = new Point(242, 213);
+            txtAdelantos.Name = "txtAdelantos";
+            txtAdelantos.Size = new Size(100, 23);
+            txtAdelantos.TabIndex = 1;
             // 
             // cmbEmpleados
             // 
@@ -68,12 +73,11 @@
             cmbEmpleados.Name = "cmbEmpleados";
             cmbEmpleados.Size = new Size(269, 23);
             cmbEmpleados.TabIndex = 2;
-            cmbEmpleados.SelectedIndexChanged += cmbEmpleados_SelectedIndexChanged;
             // 
             // lblAdelanto
             // 
             lblAdelanto.AutoSize = true;
-            lblAdelanto.Location = new Point(358, 62);
+            lblAdelanto.Location = new Point(242, 195);
             lblAdelanto.Name = "lblAdelanto";
             lblAdelanto.Size = new Size(63, 15);
             lblAdelanto.TabIndex = 3;
@@ -82,7 +86,7 @@
             // lblPrestamo
             // 
             lblPrestamo.AutoSize = true;
-            lblPrestamo.Location = new Point(358, 119);
+            lblPrestamo.Location = new Point(242, 265);
             lblPrestamo.Name = "lblPrestamo";
             lblPrestamo.Size = new Size(60, 15);
             lblPrestamo.TabIndex = 4;
@@ -91,7 +95,7 @@
             // txtPrestamo
             // 
             txtPrestamo.Enabled = false;
-            txtPrestamo.Location = new Point(358, 150);
+            txtPrestamo.Location = new Point(242, 283);
             txtPrestamo.Name = "txtPrestamo";
             txtPrestamo.Size = new Size(144, 23);
             txtPrestamo.TabIndex = 5;
@@ -99,24 +103,24 @@
             // lblSeguro
             // 
             lblSeguro.AutoSize = true;
-            lblSeguro.Location = new Point(568, 71);
+            lblSeguro.Location = new Point(451, 145);
             lblSeguro.Name = "lblSeguro";
             lblSeguro.Size = new Size(47, 15);
             lblSeguro.TabIndex = 6;
             lblSeguro.Text = "Seguro:";
             // 
-            // textBox2
+            // txtSeguro
             // 
-            textBox2.Enabled = false;
-            textBox2.Location = new Point(568, 99);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(171, 23);
-            textBox2.TabIndex = 7;
+            txtSeguro.Enabled = false;
+            txtSeguro.Location = new Point(451, 173);
+            txtSeguro.Name = "txtSeguro";
+            txtSeguro.Size = new Size(171, 23);
+            txtSeguro.TabIndex = 7;
             // 
             // lblBonificaciones
             // 
             lblBonificaciones.AutoSize = true;
-            lblBonificaciones.Location = new Point(568, 155);
+            lblBonificaciones.Location = new Point(451, 229);
             lblBonificaciones.Name = "lblBonificaciones";
             lblBonificaciones.Size = new Size(87, 15);
             lblBonificaciones.TabIndex = 8;
@@ -125,7 +129,7 @@
             // txtBonificaciones
             // 
             txtBonificaciones.Enabled = false;
-            txtBonificaciones.Location = new Point(568, 173);
+            txtBonificaciones.Location = new Point(451, 247);
             txtBonificaciones.Name = "txtBonificaciones";
             txtBonificaciones.Size = new Size(171, 23);
             txtBonificaciones.TabIndex = 9;
@@ -164,24 +168,75 @@
             txtHorasExtra.Size = new Size(100, 23);
             txtHorasExtra.TabIndex = 13;
             // 
+            // btnBuscar
+            // 
+            btnBuscar.Location = new Point(334, 90);
+            btnBuscar.Name = "btnBuscar";
+            btnBuscar.Size = new Size(75, 23);
+            btnBuscar.TabIndex = 14;
+            btnBuscar.Text = "Buscar";
+            btnBuscar.UseVisualStyleBackColor = true;
+            btnBuscar.Click += btnBuscar_Click;
+            // 
+            // lblSalarioFinal
+            // 
+            lblSalarioFinal.AutoSize = true;
+            lblSalarioFinal.Font = new Font("Segoe UI", 22F);
+            lblSalarioFinal.Location = new Point(48, 312);
+            lblSalarioFinal.Name = "lblSalarioFinal";
+            lblSalarioFinal.Size = new Size(0, 41);
+            lblSalarioFinal.TabIndex = 15;
+            // 
+            // lblSalarioBase
+            // 
+            lblSalarioBase.AutoSize = true;
+            lblSalarioBase.Location = new Point(242, 133);
+            lblSalarioBase.Name = "lblSalarioBase";
+            lblSalarioBase.Size = new Size(72, 15);
+            lblSalarioBase.TabIndex = 16;
+            lblSalarioBase.Text = "Salario Base:";
+            // 
+            // txtSalarioBase
+            // 
+            txtSalarioBase.Enabled = false;
+            txtSalarioBase.Location = new Point(242, 151);
+            txtSalarioBase.Name = "txtSalarioBase";
+            txtSalarioBase.Size = new Size(144, 23);
+            txtSalarioBase.TabIndex = 17;
+            // 
+            // btnPagar
+            // 
+            btnPagar.Location = new Point(565, 447);
+            btnPagar.Name = "btnPagar";
+            btnPagar.Size = new Size(133, 45);
+            btnPagar.TabIndex = 18;
+            btnPagar.Text = "Pagar";
+            btnPagar.UseVisualStyleBackColor = true;
+            btnPagar.Click += btnPagar_Click;
+            // 
             // frmSalarios
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(791, 542);
+            Controls.Add(btnPagar);
+            Controls.Add(txtSalarioBase);
+            Controls.Add(lblSalarioBase);
+            Controls.Add(lblSalarioFinal);
+            Controls.Add(btnBuscar);
             Controls.Add(txtHorasExtra);
             Controls.Add(lblHorasExtra);
             Controls.Add(txtHorasTrabajadas);
             Controls.Add(lblHoras);
             Controls.Add(txtBonificaciones);
             Controls.Add(lblBonificaciones);
-            Controls.Add(textBox2);
+            Controls.Add(txtSeguro);
             Controls.Add(lblSeguro);
             Controls.Add(txtPrestamo);
             Controls.Add(lblPrestamo);
             Controls.Add(lblAdelanto);
             Controls.Add(cmbEmpleados);
-            Controls.Add(textBox1);
+            Controls.Add(txtAdelantos);
             Controls.Add(lblEmpleado);
             Name = "frmSalarios";
             Text = "frmSalarios";
@@ -193,18 +248,23 @@
         #endregion
 
         private Label lblEmpleado;
-        private TextBox textBox1;
+        private TextBox txtAdelantos;
         private ComboBox cmbEmpleados;
         private Label lblAdelanto;
         private Label lblPrestamo;
         private TextBox txtPrestamo;
         private Label lblSeguro;
-        private TextBox textBox2;
+        private TextBox txtSeguro;
         private Label lblBonificaciones;
         private TextBox txtBonificaciones;
         private Label lblHoras;
         private TextBox txtHorasTrabajadas;
         private Label lblHorasExtra;
         private TextBox txtHorasExtra;
+        private Button btnBuscar;
+        private Label lblSalarioFinal;
+        private Label lblSalarioBase;
+        private TextBox txtSalarioBase;
+        private Button btnPagar;
     }
 }
