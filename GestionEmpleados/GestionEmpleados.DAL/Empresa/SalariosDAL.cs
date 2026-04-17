@@ -30,10 +30,13 @@ namespace GestionEmpleados.DAL.Empresa
                     {
                         IdEmpleado = new Empleado { IdEmpleado = reader.GetInt32(reader.GetOrdinal("IdEmpleado")) },
                         NombreEmpleado = reader.GetString(reader.GetOrdinal("NombreEmpleado")),
+                        SalarioBase = reader.GetDecimal(reader.GetOrdinal("SalarioBase")),
                         Adelantos = reader.GetDecimal(reader.GetOrdinal("TotalAdelantos")),
                         RebajoDePrestamo = reader.GetDecimal(reader.GetOrdinal("Rebajo_de_Prestamo")),
                         Seguro = reader.GetDecimal(reader.GetOrdinal("Seguro")),
                         HorasTrabajadas = reader.GetDecimal(reader.GetOrdinal("HorasTrabajadas")),
+                        HorasExtras = reader.GetDecimal(reader.GetOrdinal("HorasExtra")),
+                        Monto = reader.GetDecimal(reader.GetOrdinal("SalarioFinal")),
                     });
                 }
             }
@@ -43,6 +46,37 @@ namespace GestionEmpleados.DAL.Empresa
             }
 
             return lista;
+        }
+
+        public bool Salarios_PagarSalario(int idEmpleado, out string mensaje)
+        {
+            bool resultado = false;
+            mensaje = string.Empty;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(CadenaConexion.Cadena))
+                using (SqlCommand cmd = new SqlCommand("SP_PagarSalario", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@IdEmpleado", idEmpleado);
+
+                    cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    resultado = Convert.ToBoolean(cmd.Parameters["@Resultado"].Value);
+                    mensaje = cmd.Parameters["@Mensaje"].Value?.ToString() ?? string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+                mensaje = $"Error al pagar el salario: {ex.Message}";
+                resultado = false;
+            }
+            return resultado;
         }
     }
 }
