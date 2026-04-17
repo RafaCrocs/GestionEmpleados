@@ -35,7 +35,8 @@
             EmpleadosSubMenuItem = new ToolStripMenuItem();
             AdelantosSubMenuItem = new ToolStripMenuItem();
             PrestamosSubMenuItem = new ToolStripMenuItem();
-            txtUsuario = new ToolStripTextBox();
+            salariosToolStripMenuItem = new ToolStripMenuItem();
+            pagarToolStripMenuItem = new ToolStripMenuItem();
             homeMenu.SuspendLayout();
             SuspendLayout();
             // 
@@ -45,7 +46,7 @@
             homeMenu.BackColor = SystemColors.ActiveCaption;
             homeMenu.Font = new Font("Sitka Small", 15F);
             homeMenu.ImageScalingSize = new Size(20, 20);
-            homeMenu.Items.AddRange(new ToolStripItem[] { adminMenuItem, empleadosMenuItem, txtUsuario });
+            homeMenu.Items.AddRange(new ToolStripItem[] { adminMenuItem, empleadosMenuItem, salariosToolStripMenuItem });
             homeMenu.Location = new Point(0, 0);
             homeMenu.Name = "homeMenu";
             homeMenu.Padding = new Padding(5, 2, 0, 2);
@@ -63,7 +64,7 @@
             // usuariosSysSubMenuItem
             // 
             usuariosSysSubMenuItem.Name = "usuariosSysSubMenuItem";
-            usuariosSysSubMenuItem.Size = new Size(176, 34);
+            usuariosSysSubMenuItem.Size = new Size(180, 34);
             usuariosSysSubMenuItem.Text = "Usuarios";
             usuariosSysSubMenuItem.Click += usuariosSysSubMenuItem_Click;
             // 
@@ -93,13 +94,21 @@
             PrestamosSubMenuItem.Name = "PrestamosSubMenuItem";
             PrestamosSubMenuItem.Size = new Size(197, 34);
             PrestamosSubMenuItem.Text = "Prestamos";
+            PrestamosSubMenuItem.Click += PrestamosSubMenuItem_Click;
             // 
-            // txtUsuario
+            // salariosToolStripMenuItem
             // 
-            txtUsuario.AutoSize = false;
-            txtUsuario.BackColor = SystemColors.ActiveCaption;
-            txtUsuario.Name = "txtUsuario";
-            txtUsuario.Size = new Size(100, 78);
+            salariosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { pagarToolStripMenuItem });
+            salariosToolStripMenuItem.Name = "salariosToolStripMenuItem";
+            salariosToolStripMenuItem.Size = new Size(107, 78);
+            salariosToolStripMenuItem.Text = "Salarios";
+            // 
+            // pagarToolStripMenuItem
+            // 
+            pagarToolStripMenuItem.Name = "pagarToolStripMenuItem";
+            pagarToolStripMenuItem.Size = new Size(180, 34);
+            pagarToolStripMenuItem.Text = "Pagar";
+            pagarToolStripMenuItem.Click += pagarToolStripMenuItem_Click;
             // 
             // Inicio
             // 
@@ -125,6 +134,7 @@
         private ToolStripMenuItem EmpleadosSubMenuItem;
         private ToolStripMenuItem AdelantosSubMenuItem;
         private ToolStripMenuItem PrestamosSubMenuItem;
-        private ToolStripTextBox txtUsuario;
+        private ToolStripMenuItem salariosToolStripMenuItem;
+        private ToolStripMenuItem pagarToolStripMenuItem;
     }
 }
