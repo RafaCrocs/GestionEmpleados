@@ -13,9 +13,10 @@ namespace GestionEmpleados.Forms.Modals
 {
     public partial class UsuarioModal : Form
     {
-        public UsuarioModal()
+        public UsuarioModal(Usuario usuarioAEditar = null)
         {
             InitializeComponent();
+            UsuarioAEditar = usuarioAEditar;
         }
 
         private RolesBL rolesBL = new RolesBL();
@@ -24,18 +25,10 @@ namespace GestionEmpleados.Forms.Modals
         private List<Rol> roles = new List<Rol>();
         private List<Sucursal> sucursales = new List<Sucursal>();
 
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public Usuario NuevoUsuario { get; set; }
+        public Usuario NuevoUsuario { get; private set; }
 
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public Usuario UsuarioAEditar { get; set; }
+        public Usuario UsuarioAEditar { get; }
 
-
-        public UsuarioModal(Usuario usuarioAEditar = null)
-        {
-            InitializeComponent();
-            UsuarioAEditar = usuarioAEditar;
-        }
 
         private void CargarDatos()
         {
@@ -78,41 +71,6 @@ namespace GestionEmpleados.Forms.Modals
             this.Close();
         }
 
-        private void btnAceptar_Click(object sender, EventArgs e)
-        {
-            if (UsuarioAEditar == null)
-            {
-
-                if (MessageBox.Show("Realmente deseas agregar al usuario?", "AGREGAR", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    NuevoUsuario = new Usuario()
-                    {
-                        //Nombre = this.txtNombre.Text,
-                        //Correo = this.txtCorreo.Text,
-                        //Password = this.txtContrasenna.Text,
-                        //Genero = (rdMasculino.Checked ? Utilities.Enums.Genero.M : Utilities.Enums.Genero.F),
-                        //FechaNacimiento = dateFechaNacimiento.Value,
-                        //TipoUsuarioSysId = Convert.ToInt16(cmbRoles.SelectedValue),
-                        //Activo = chkActivo.Checked
-                    };
-                }
-            }
-            else
-            {
-                if (MessageBox.Show("Realmente deseas editar al usuario?", "EDITAR", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    //UsuarioAEditar.Correo = this.txtCorreo.Text;
-                    //UsuarioAEditar.Nombre = this.txtNombre.Text;
-                    //UsuarioAEditar.Password = this.txtContrasenna.Text;
-                    //UsuarioAEditar.Genero = (rdMasculino.Checked ? Utilities.Enums.Genero.M : Utilities.Enums.Genero.F);
-                    //UsuarioAEditar.FechaNacimiento = dateFechaNacimiento.Value;
-                    //UsuarioAEditar.TipoUsuarioSysId = Convert.ToInt16(cmbRoles.SelectedValue);
-                    //UsuarioAEditar.Activo = chkActivo.Checked;
-
-                }
-            }
-            this.DialogResult = DialogResult.OK;
-        }
 
         private void btnAceptar_Click_1(object sender, EventArgs e)
         {

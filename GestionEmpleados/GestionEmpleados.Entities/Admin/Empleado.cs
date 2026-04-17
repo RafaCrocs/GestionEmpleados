@@ -10,13 +10,14 @@ namespace GestionEmpleados.Entities.Admin
         public Sucursal? IdSucursal { get; set; }
         public string? Nombre { get; set; }
         public string? Apellidos { get; set; }
+        public string NombreCompleto => $"{Nombre} {Apellidos} {Identificacion}";
         public string? Identificacion { get; set; }
         public string? Telefono { get; set; }
         public string? Correo { get; set; }
-        public string? Contrasena { get; set; }
+        public string? Contrasenna { get; set; }
         public DateTime FechaNacimiento { get; set; }
-        public DateTime FechaIngreso { get; set; } = DateTime.Now;
-        public DateTime FechaSalida { get; set; }
+        public DateTime FechaIngreso { get; set; }
+        public DateTime? FechaSalida { get; set; }
         public Puesto? IdPuesto { get; set; }
         public decimal Bonificacion { get; set; }
         public bool PagaSeguro { get; set; }

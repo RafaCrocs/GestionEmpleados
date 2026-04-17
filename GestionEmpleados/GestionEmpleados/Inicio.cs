@@ -3,6 +3,7 @@ using GestionEmpleados.Forms.Admin;
 using GestionEmpleados.Forms.Empleados;
 using GestionEmpleados.Entities.Admin;
 using System.Windows.Forms;
+using GestionEmpleados.Forms.Gerente;
 
 namespace GestionEmpleados
 {
@@ -33,6 +34,22 @@ namespace GestionEmpleados
             frmEmpleados menuEmpleados = new frmEmpleados();
             menuEmpleados.ShowDialog(this);
         }
+        private void AdelantosSubMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAdelantos menuAdelantos = new frmAdelantos();
+            menuAdelantos.ShowDialog(this);
+        }
+        private void PrestamosSubMenuItem_Click(object sender, EventArgs e)
+        {
+            frmPrestamos menuPrestamos = new frmPrestamos();
+            menuPrestamos.ShowDialog(this);
+        }
+        private void pagarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmSalarios menuSalarios = new frmSalarios();
+            menuSalarios.ShowDialog(this);
+        }
         #endregion eventos
+
     }
 }

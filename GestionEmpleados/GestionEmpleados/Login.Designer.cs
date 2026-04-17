@@ -34,6 +34,8 @@
             lblContrasenna = new Label();
             lblIdentificacion = new Label();
             btnLogin = new Button();
+            btnEntrada = new Button();
+            btnSalida = new Button();
             SuspendLayout();
             // 
             // cbxVerContrasenna
@@ -90,7 +92,7 @@
             // 
             // btnLogin
             // 
-            btnLogin.Location = new Point(138, 162);
+            btnLogin.Location = new Point(290, 239);
             btnLogin.Margin = new Padding(3, 2, 3, 2);
             btnLogin.Name = "btnLogin";
             btnLogin.Size = new Size(192, 34);
@@ -99,11 +101,35 @@
             btnLogin.UseVisualStyleBackColor = true;
             btnLogin.Click += btnLogin_Click;
             // 
+            // btnEntrada
+            // 
+            btnEntrada.Location = new Point(132, 164);
+            btnEntrada.Margin = new Padding(3, 2, 3, 2);
+            btnEntrada.Name = "btnEntrada";
+            btnEntrada.Size = new Size(96, 34);
+            btnEntrada.TabIndex = 10;
+            btnEntrada.Text = "Entrada";
+            btnEntrada.UseVisualStyleBackColor = true;
+            btnEntrada.Click += btnEntrada_Click;
+            // 
+            // btnSalida
+            // 
+            btnSalida.Location = new Point(234, 164);
+            btnSalida.Margin = new Padding(3, 2, 3, 2);
+            btnSalida.Name = "btnSalida";
+            btnSalida.Size = new Size(96, 34);
+            btnSalida.TabIndex = 11;
+            btnSalida.Text = "Salida";
+            btnSalida.UseVisualStyleBackColor = true;
+            btnSalida.Click += btnSalida_Click;
+            // 
             // Login
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(409, 244);
+            ClientSize = new Size(489, 289);
+            Controls.Add(btnSalida);
+            Controls.Add(btnEntrada);
             Controls.Add(cbxVerContrasenna);
             Controls.Add(txtContrasenna);
             Controls.Add(txtIdentificacion);
@@ -125,5 +151,7 @@
         private Label lblContrasenna;
         private Label lblIdentificacion;
         private Button btnLogin;
+        private Button btnEntrada;
+        private Button btnSalida;
     }
 }
