@@ -1,7 +1,7 @@
-create database GestionEmpleados17
+create database GestionEmpleadosOficial
 go
 
-use GestionEmpleados17
+use GestionEmpleadosOficial
 go
 
 create table Sucursales (
@@ -42,20 +42,12 @@ go
 create table Puestos (
 	IdPuesto int primary key identity(1,1),
 	Nombre varchar(50) not null unique,
-	SalarioBase decimal(18, 2) not null,
+	SalarioReportado decimal(18, 2) not null,
+	PorcentajeSeguro decimal(18, 2) not null,
+	Seguro decimal(18, 2) not null
 );
 go
 
-create table Seguros (
-	IdSeguro int primary key identity(1,1),
-	IdPuesto int not null,
-	PorcentajeEmpleado decimal(5, 2) not null,
-	MontoEmpleado decimal(18, 2) not null,
-	PorcentajeEmpresa decimal(5, 2) not null,
-	MontoEmpresa decimal(18, 2) not null,
-	Constraint FK_Seguros_Puestos foreign key (IdPuesto) references Puestos(IdPuesto)
-);
-go
 
 create table Empleados (
 	IdEmpleado int primary key identity(1,1),
@@ -70,6 +62,9 @@ create table Empleados (
 	FechaIngreso date not null default getdate(),
 	FechaSalida date null,
 	IdPuesto int not null,
+	SalarioReal decimal(18, 2) not null,
+	SalarioReportado decimal(18, 2) not null,
+	Seguro decimal(18, 2) not null,
 	ValorHora decimal(18, 2) not null,
 	Bonificacion decimal(18, 2) not null,
 	PagaSeguro bit not null,
@@ -80,6 +75,7 @@ create table Empleados (
 	Constraint CK_Empleados_Estado check (Estado IN ('Activo', 'Inactivo', 'Vacaciones', 'Incapacidad'))
 );
 go
+
 
 
 create table RegistroHoras (
@@ -135,9 +131,7 @@ create table Prestamos (
 	IdPrestamo int primary key identity(1,1),
 	IdEmpleado int not null,
 	Monto decimal(18, 2) not null,
-	Cuotas int not null,
-	CuotasRestantes int not null,
-	MontoAPagarPorCuota decimal(18, 2) not null,
+	SugerenciaDeRebajo decimal(18, 2) null,
 	FechaInicio date not null default getdate(),
 	MontoRestante decimal(18, 2) not null,
 	MontoPagado decimal(18, 2) default 0,
@@ -147,17 +141,41 @@ create table Prestamos (
 );
 go
 
+create table RegistroPrestamos (
+	IdRegistro int primary key identity(1,1),
+	IdPrestamo int not null,
+	IdEmpleado int not null,
+	NombreEmpleado varchar(100) not null,
+	MontoPagado decimal(18, 2) not null,
+	Fecha date not null default getdate(),
+	Constraint FK_RegistroPrestamos_Prestamos foreign key (IdPrestamo) references Prestamos(IdPrestamo),
+	Constraint FK_RegistroPrestamos_Empleados foreign key (IdEmpleado) references Empleados(IdEmpleado)
+);
+go
+
+
 create table RegistroPagos (
 	IdPago int primary key identity(1,1),
 	IdEmpleado int not null,
-	Fecha date not null default getdate(),
-	Deducciones decimal(18, 2) not null,
-	Monto decimal(18, 2) not null,
-	Detalle varchar(100) not null,
+	NombreEmpleado varchar(100) not null,
+	HorasTrabajadas decimal(18, 2) not null,
+	HorasExtra decimal(18, 2) not null,
+	DiasAusentes int not null,
+	DiasIncapacitados int not null,
+	DiasDobles int not null,
+	SalarioReal decimal(18, 2) not null,
+	SalarioPagado decimal(18, 2) not null,
+	SalarioReportado decimal(18, 2) not null,
+	Seguro decimal(18, 2) not null,
+	Adelanto decimal(18, 2) not null,
+	Prestamo decimal(18, 2) not null,
+	Bonificacion decimal(18, 2) not null,
+	Fecha date not null default getdate()
 
 	Constraint FK_RegistroPagos_Empleados foreign key (IdEmpleado) references Empleados(IdEmpleado)
 );
 go
+
 
 Create table DiaFestivo (
 	IdDiaFestivo int primary key identity(1,1),
@@ -175,9 +193,11 @@ insert into Roles (Nombre, Descripcion) values
 go
 
 insert into Sucursales (Nombre, Direccion, Telefono, FechaCreacion) values
-('Sucursal Central', 'Liberia, Guardia', '1234-5678', '2026-04-13'),
-('Sucursal Alajuela', 'Alajuela, Alajuela', '8765-4321', '2026-04-13'),
-('Sucursal San José', 'San José, San José', '5555-5555', '2026-04-13');
+('San Ramon', 'Alajuela, San Ramon', '5555-5555', '2026-04-13'),
+('Liberia', 'Liberia, Guardia', '1234-5678', '2026-04-13'),
+('Orotina', 'Alajuela, Orotina', '8765-4321', '2026-04-13'),
+('Chaverri', 'Sarchi', '5555-1234', '2026-04-13'),
+('Eloy Alfaro', 'Sarchi', '1234-5555', '2026-04-13')
 go
 
 insert into Usuarios (IdSucursal, Nombre, Apellidos, Identificacion, IdRol, Correo, Contrasenna, Activo) values
@@ -186,39 +206,153 @@ insert into Usuarios (IdSucursal, Nombre, Apellidos, Identificacion, IdRol, Corr
 (1, 'Maria', 'Lopez', '208600682', 3, 'maria@ulatina.co.cr', '123', 1)
 go
 
-
-insert into Puestos (Nombre, SalarioBase) values
-('Cajero', 419755.80),
-('Salonero', 373092.42),
-('Cocinero', 491884.55);
+create or alter view VW_Empleados
+as
+select
+	e.IdEmpleado,
+	e.Identificacion,
+	e.Nombre,
+	e.Apellidos,
+	e.Telefono,
+	e.Correo,
+	e.Contrasenna,
+	e.FechaNacimiento,
+	e.FechaIngreso,
+	e.FechaSalida,
+	p.IdPuesto,
+	p.Nombre AS NombrePuesto,
+	s.IdSucursal,
+	e.SalarioReportado,
+	e.SalarioReal,
+	s.Nombre AS NombreSucursal,
+	e.ValorHora,
+	e.Bonificacion,
+	e.Seguro,
+	e.PagaSeguro,
+	e.Estado
+from Empleados e
+join Puestos p on e.IdPuesto = p.IdPuesto
+join Sucursales s on e.IdSucursal = s.IdSucursal
 go
 
+--Insertar Puesto y Seguro
+create or alter procedure SP_InsertarPuesto_Seguro(
+	@Nombre varchar(50),
+	@SalarioReportado decimal(18, 2),
+	@PorcentajeSeguro decimal(18, 2),
+	@Mensaje varchar(500) output,
+	@Resultado bit output
+)
+as
+begin
+	begin try
+		if exists (select 1 from Puestos where Nombre = @Nombre)
+		begin
+			set @Mensaje = 'Ya existe un puesto con ese nombre'
+			set @Resultado = 0;
+			return;
+		end
+		else
+		begin
+			
+				insert into Puestos (Nombre, SalarioReportado, PorcentajeSeguro, Seguro)
+				values (@Nombre, @SalarioReportado, @PorcentajeSeguro, (@SalarioReportado * @PorcentajeSeguro/100))
+				set @Resultado = 1;
+		end
+	end try
+	begin catch
+		set @Mensaje = 'Ocurrió un error al insertar el puesto'			
+		set @Resultado = 0;
+		return;		
+	end catch
+end
+go
+-- Editar Puesto y Seguro
+create or alter procedure SP_Editar_Puesto_Seguro(
+	@IdPuesto int,
+	@Nombre varchar(50),
+	@SalarioReportado decimal(18, 2),
+	@PorcentajeSeguro decimal(18, 2),
+	@Mensaje varchar(500) output,
+	@Resultado bit output
+)
+as
+begin
+	begin try
+		if not exists (select 1 from Puestos where IdPuesto = @IdPuesto)
+		begin
+			set @Mensaje = 'No existe un puesto con ese ID'
+			set @Resultado = 0;
+			return;
+		end
+		else
+		begin
+			update Puestos
+			set Nombre = @Nombre,
+				SalarioReportado = @SalarioReportado,
+				PorcentajeSeguro = @PorcentajeSeguro,
+				Seguro = (@SalarioReportado * @PorcentajeSeguro/100)
+			where IdPuesto = @IdPuesto;
+
+			set @Resultado = 1;
+		end
+	end try
+	begin catch
+		set @Mensaje = 'Ocurrió un error al editar el puesto y seguro'
+		set @Resultado = 0;
+		return;
+	end catch
+end
+go
+
+create or alter procedure SP_Eliminar_Puesto_Seguro(
+	@IdPuesto int,
+	@Resultado bit output,
+	@Mensaje varchar(500) output
+)
+as
+begin
+	begin try
+		if not exists (select 1 from Puestos where IdPuesto = @IdPuesto)
+		begin
+			set @Mensaje = 'No existe un puesto con ese ID'
+			set @Resultado = 0;
+			return;
+		end
+		else if exists (select 1 from Empleados where IdPuesto = @IdPuesto)
+		begin
+			set @Mensaje = 'No se puede eliminar puestos si existen empleados asignados con ese puesto'
+			set @Resultado = 0;
+			return;
+		end
+		else
+		begin
+			delete from Puestos where IdPuesto = @IdPuesto
+			set @Resultado = 1;
+		end
+	end try
+	begin catch
+		set @Mensaje = 'Ocurrió un error al eliminar el puesto'
+		set @Resultado = 0;
+		return;
+	end catch
+end
+go
+
+
+create or alter view VW_Puestos_Seguros
+as
 select
 	a.IdPuesto,
 	a.Nombre AS NombrePuesto,
-	a.SalarioBase,
-	b.PorcentajeEmpleado,
-	b.MontoEmpleado,
-	b.PorcentajeEmpresa,
-	b.MontoEmpresa
+	a.SalarioReportado,
+	a.PorcentajeSeguro,
+	a.Seguro
 	from Puestos a
-	join Seguros b on a.IdPuesto = b.IdPuesto
 go
-
-insert into Seguros (IdPuesto, PorcentajeEmpleado, MontoEmpleado,PorcentajeEmpresa, MontoEmpresa) values
-(1, 9.5, 419755.80*(9.5/100), 26.5, 419755.80*(26.5/100)),
-(2, 9.5, 373092.42 *(9.5/100), 26.5, 373092.42*(26.5/100)),
-(3, 9.5, 491884.55 *(9.5/100), 26.5, 491884.55*(26.5/100));
-go
-
 --Logica para Insertar Empleados
-insert into Empleados (IdSucursal, Identificacion, Nombre, Apellidos, Telefono, Correo, Contrasenna, FechaNacimiento, IdPuesto, ValorHora, Bonificacion, PagaSeguro, Estado) values
-(1, '208600681', 'Gary', 'Perez', '1234-5678', 'gary@lkjasd.com', '123', '2003-04-12', 1,419755.80/240, 0, 1, 'Activo'),
-(1, '208600682', 'Ana', 'Gomez', '8765-4321', 'ana@lkjas.com', '123', '1990-08-20', 2, 373092.42/240, 50000, 1,  'Activo'),
-(3, '208600683', 'Luis', 'Martinez', '5555-5555', 'luis@asds.com', '123', '2001-01-03', 3, 491884.55/240, 14000, 1,  'Activo')
-go
 
-create procedure SP_InsertarEmpleado(
+create or alter procedure SP_InsertarEmpleado(
 	@IdSucursal int,
 	@Identificacion varchar(50),
 	@Nombre varchar(50),
@@ -228,7 +362,11 @@ create procedure SP_InsertarEmpleado(
 	@Contrasenna varchar(255),
 	@FechaNacimiento date,
 	@IdPuesto int,
+	@ValorHora decimal(18, 2),
+	@SalarioReportado decimal(18, 2),
+	@SalarioReal decimal(18, 2),
 	@Bonificacion decimal(18, 2),
+	@Seguro decimal(18, 2),
 	@PagaSeguro bit,
 	@Estado varchar(50),
 	@Resultado bit output,
@@ -245,16 +383,82 @@ begin
 	else
 
 	begin
-	declare @ValorHora decimal(18, 2);
-	select @ValorHora = SalarioBase / 240 from Puestos where IdPuesto = @IdPuesto;
-		insert into Empleados (IdSucursal, Identificacion, Nombre, Apellidos, Telefono, Correo, Contrasenna, FechaNacimiento, IdPuesto, ValorHora, Bonificacion, PagaSeguro, Estado)
-		values (@IdSucursal, @Identificacion, @Nombre, @Apellidos, @Telefono, @Correo, @Contrasenna, @FechaNacimiento, @IdPuesto, @ValorHora, @Bonificacion, @PagaSeguro, @Estado)
+		insert into Empleados (IdSucursal, Identificacion, Nombre, Apellidos, Telefono, Correo, Contrasenna, FechaNacimiento, IdPuesto, ValorHora, SalarioReal, SalarioReportado, Seguro, Bonificacion, PagaSeguro, Estado)
+		values (@IdSucursal, @Identificacion, @Nombre, @Apellidos, @Telefono, @Correo, @Contrasenna, @FechaNacimiento, @IdPuesto, @ValorHora, @SalarioReal, @SalarioReportado, @Seguro, @Bonificacion, @PagaSeguro, @Estado)
 		set @Resultado = 1;
 	end
 end
 go
 
-create procedure SP_EliminarEmpleado(
+create or alter procedure SP_EditarEmpleado(
+	@IdEmpleado int,
+	@IdSucursal int,
+	@Identificacion varchar(50),
+	@Nombre varchar(50),
+	@Apellidos varchar(50),
+	@Telefono varchar(20),
+	@Correo varchar(100),
+	@Contrasenna varchar(255),
+	@FechaNacimiento date,
+	@IdPuesto int,
+	@ValorHora decimal(18, 2),
+	@SalarioReal decimal(18, 2),
+	@SalarioReportado decimal(18, 2),
+	@Bonificacion decimal(18, 2),
+	@Seguro decimal(18, 2),
+	@PagaSeguro bit,
+	@Estado varchar(50),
+	@Resultado bit output,
+	@Mensaje varchar(500) output
+)
+as
+begin
+	begin try
+		if not exists (select 1 from Empleados where IdEmpleado = @IdEmpleado)
+		begin
+			set @Mensaje = 'No existe un empleado con ese ID'
+			set @Resultado = 0;
+			return;
+		end
+		else if exists (select 1 from Empleados where Identificacion = @Identificacion and IdEmpleado != @IdEmpleado)
+		begin
+			set @Mensaje = 'Ya existe otro empleado con esa identificación'
+			set @Resultado = 0;
+			return;
+		end
+		else
+		begin
+			update Empleados
+			set IdSucursal = @IdSucursal,
+				Identificacion = @Identificacion,
+				Nombre = @Nombre,
+				Apellidos = @Apellidos,
+				Telefono = @Telefono,
+				Correo = @Correo,
+				Contrasenna = @Contrasenna,
+				FechaNacimiento = @FechaNacimiento,
+				IdPuesto = @IdPuesto,
+				ValorHora = @ValorHora,
+				SalarioReal = @SalarioReal,
+				SalarioReportado = @SalarioReportado,
+				Bonificacion = @Bonificacion,
+				Seguro = @Seguro,
+				PagaSeguro = @PagaSeguro,
+				Estado = @Estado
+			where IdEmpleado = @IdEmpleado
+			set @Resultado = 1;
+		end
+	end try
+	begin catch
+		set @Mensaje = 'Ocurrió un error al editar el empleado'
+		set @Resultado = 0;
+		return;
+	end catch
+end
+go
+
+
+create or alter procedure SP_Eliminar_Empleado(
 	@IdEmpleado int,
 	@Resultado bit output,
 	@Mensaje varchar(500) output
@@ -279,6 +483,12 @@ begin
 		set @Resultado = 0;
 		return;
 	end
+	else if exists (select 1 from RegistroHoras where IdEmpleado = @IdEmpleado)
+	begin
+		set @Mensaje = 'No se puede eliminar el empleado porque tiene registros de Salarios'
+		set @Resultado = 0;
+		return;
+	end
 	else
 	begin
 		delete from Empleados where IdEmpleado = @IdEmpleado
@@ -289,7 +499,7 @@ go
 
 
 
-create procedure SP_InsertarAdelanto(
+create or alter procedure SP_InsertarAdelanto(
 	@IdEmpleado int,
 	@NombreEmpleado varchar(100),
 	@Monto decimal(18, 2),
@@ -302,13 +512,13 @@ create procedure SP_InsertarAdelanto(
 	begin try
 		-- Ver los adelantos previos del empleado
 			declare @TotalPrevio decimal(18, 2);
-			declare @SalarioBaseEmpleado decimal(18, 2);
+			declare @SalarioReal decimal(18, 2);
 
 			select @TotalPrevio = isnull(sum(Monto), 0)
 			from Adelantos
 			where IdEmpleado = @IdEmpleado;
 
-			select @SalarioBaseEmpleado = SalarioBase
+			select @SalarioReal = SalarioReal
 			from Empleados e
 			join Puestos p on e.IdPuesto = p.IdPuesto
 			where e.IdEmpleado = @IdEmpleado;
@@ -324,7 +534,7 @@ create procedure SP_InsertarAdelanto(
 			return;
 		end
 		-- Limite de adelanto
-		if(@TotalPrevio + @Monto > @SalarioBaseEmpleado)
+		if(@TotalPrevio + @Monto > @SalarioReal)
 		begin
 			set @Mensaje = 'El monto total de adelantos no puede exceder el salario base del empleado'
 			set @Resultado = 0;
@@ -345,18 +555,9 @@ create procedure SP_InsertarAdelanto(
 	end
 go
 
-insert into Adelantos (IdEmpleado, Monto, Detalle) values
-(1, 100000, 'Adelanto para gastos personales'),
-(2, 50000, 'Adelanto para compra de uniformes'),
-(3, 200000, 'Adelanto para emergencia familiar')
-go
-
-insert into Prestamos (IdEmpleado, Monto, Cuotas, CuotasRestantes, MontoAPagarPorCuota, MontoRestante, Detalle) values
-(1, 300000, 3, 3, 100000, 300000, 'Préstamo para compra de electrodomésticos'),
-(2, 150000, 5, 5, 30000, 150000, 'Préstamo para reparación de vehículo'),
-(3, 500000, 10, 10, 50000, 500000, 'Préstamo para gastos médicos')
-
 -- Vista para mostrar los adelantos con el nombre del empleado
+create or alter view VW_AdelantosEmpleados
+as
 select
     a.IdAdelanto,
 	e.IdEmpleado,
@@ -366,14 +567,13 @@ select
     a.Detalle
 from dbo.Adelantos a
 INNER JOIN dbo.Empleados e ON a.IdEmpleado = e.IdEmpleado
-order by a.IdAdelanto desc
 go
 
 -- Procedimiento almacenado para insertar un préstamo
-create procedure SP_InsertarPrestamo(
+create or alter procedure SP_InsertarPrestamo(
 	@IdEmpleado int,
 	@Monto decimal(18, 2),
-	@Cuotas int,
+	@SugerenciaDeRebajo decimal(18, 2),
 	@Detalle varchar(100),
 	@Mensaje varchar(500) output,
 	@Resultado bit output
@@ -381,7 +581,7 @@ create procedure SP_InsertarPrestamo(
 as
 begin
 	begin try
-		if exists (select 1 from Prestamos where IdEmpleado = @IdEmpleado and CuotasRestantes > 0)
+		if exists (select 1 from Prestamos where IdEmpleado = @IdEmpleado)
 		begin
 			declare @NombreEmpleado varchar(100);
 			select @NombreEmpleado = Nombre + ' ' + Apellidos from Empleados where IdEmpleado = @IdEmpleado;
@@ -396,22 +596,18 @@ begin
 			set @Resultado = 0;
 			return;
 		end
-		if(@Cuotas <= 0)
+		if(@SugerenciaDeRebajo < 0)
 		begin
-			set @Mensaje = 'El número de cuotas debe ser mayor a cero'
+			set @Mensaje = 'La sugerencia de rebajo no puede ser negativa'
 			set @Resultado = 0;
 			return;
 		end
-
-		declare @CuotasRestantes int;
-		declare @MontoAPagarPorCuota decimal(18, 2);
+			
 		declare @MontoRestante decimal(18, 2);
 
-		set @CuotasRestantes = @Cuotas;
-		set @MontoAPagarPorCuota = @Monto / @Cuotas;
 		set @MontoRestante = @Monto;
-		insert into Prestamos (IdEmpleado, Monto, Cuotas, CuotasRestantes, MontoAPagarPorCuota, MontoRestante, Detalle)
-		values (@IdEmpleado, @Monto, @Cuotas, @CuotasRestantes, @MontoAPagarPorCuota, @MontoRestante, @Detalle)
+		insert into Prestamos (IdEmpleado, Monto, SugerenciaDeRebajo, MontoRestante, Detalle)
+		values (@IdEmpleado, @Monto, @SugerenciaDeRebajo, @MontoRestante, @Detalle)
 		set @Resultado = 1;
 		set @Mensaje = 'Préstamo insertado exitosamente';
 	end try
@@ -424,10 +620,10 @@ end
 go
 
 --Procedimiento almacenado para Editar un préstamo
-create procedure SP_EditarPrestamo(
+create or alter procedure SP_EditarPrestamo(
 	@IdPrestamo int,
 	@Monto  decimal(18, 2),
-	@Cuotas int,
+	@SugerenciaDeRebajo decimal(18, 2),
 	@Detalle varchar(100),
 	@Mensaje varchar(500) output,
 	@Resultado bit output
@@ -441,19 +637,12 @@ begin
 			set @Resultado = 0;
 			return;
 		end
-		if(@Cuotas <= 0)
-		begin
-			set @Mensaje = 'El número de cuotas debe ser mayor a cero'
-			set @Resultado = 0;
-			return;
-		end
+		
 		declare @CambioEnMonto decimal(18, 2);
 		select @CambioEnMonto = Monto - @Monto from Prestamos where IdPrestamo = @IdPrestamo;
 		update Prestamos
 		set Monto = @Monto,
-			Cuotas = @Cuotas,
-			CuotasRestantes = @Cuotas,
-			MontoAPagarPorCuota = @Monto / @Cuotas,
+			SugerenciaDeRebajo = @SugerenciaDeRebajo,
 			MontoRestante = @Monto + @CambioEnMonto,
 			Detalle = @Detalle
 		where IdPrestamo = @IdPrestamo
@@ -470,7 +659,7 @@ go
 
 
 --Procedimiento almacenado para eliminar un préstamo
-create procedure SP_EliminarPrestamo(
+create  or alter procedure SP_EliminarPrestamo(
 	@IdPrestamo int,
 	@Resultado bit output,
 	@Mensaje varchar(500) output
@@ -488,30 +677,10 @@ begin
 		return;
 	end catch
 end
-
 go
-
-
--- Vista para mostrar los préstamos con el nombre del empleado
-select
-	a.IdPrestamo,
-	e.IdEmpleado,
-	e.Nombre + ' ' + e.Apellidos + ' ' + e.Identificacion AS NombreEmpleado,
-	a.Monto,
-	a.MontoRestante,
-	a.CuotasRestantes,
-	a.MontoAPagarPorCuota,
-	a.MontoPagado,
-	a.FechaInicio,
-	a.Detalle
-	from Prestamos a
-inner join Empleados e on a.IdEmpleado = e.IdEmpleado
-order by a.IdPrestamo desc
-go
-
 
 --Procedimiento almacenado para registrar entrada y salida de empleados
-create PROCEDURE SP_RegistrarEntradaSalida(
+create or alter PROCEDURE SP_RegistrarEntradaSalida(
 	@IdEmpleado int,
 	@TipoRegistro varchar(10),
 	@Mensaje varchar(500) output,
@@ -584,7 +753,7 @@ begin
 				HorasTrabajadas = @HorasTrabajadas,
 				HorasExtra = @HorasExtra,
 				HorasDobles = @HorasDobles
-			wehre IdEmpleado = @IdEmpleado 
+			where IdEmpleado = @IdEmpleado 
 			  AND Fecha = @FechaActual 
 			  AND HoraSalida IS NULL
 			  
@@ -600,39 +769,45 @@ end
 go
 
 --Ver deducciones de un empleado
-create procedure SP_VerDeduccionesEmpleado(
+create or alter procedure SP_VerDeduccionesEmpleado(
 	@IdEmpleado int
 )
 as
 begin
+	declare @Puesto varchar(50)
 	declare @TotalAdelantos decimal(18,2) = 0
 	declare @TotalPrestamos decimal(18,2) = 0
-	declare @Seguro decimal(18,2) = 0
 	declare @HorasTrabajadas decimal(18,2) = 0
 	declare @HorasExtra decimal(18,2) = 0
-	declare @SalarioBase decimal(18,2) = 0
-	declare @Salario decimal(18,2) = 0
+	declare @Bonificacion decimal(18,2) = 0
+	declare @SalarioReal decimal(18,2) = 0
+	declare @SalarioReportado decimal(18,2) = 0
+	declare @Seguro decimal(18,2) = 0
+	declare @ValorHora decimal(18,2) = 0
 	
-	-- Obtener salario base del empleado
-	select @SalarioBase = SalarioBase
+	-- Obetener ValorHora, Salario Real y Salario Reportado 
+	select @SalarioReal = SalarioReal,
+			@ValorHora = ValorHora,
+			@Seguro = Seguro,
+			@SalarioReportado = SalarioReportado
+	from Empleados
+	where IdEmpleado = @IdEmpleado
+
+	-- Obtener Puesto
+	select @Puesto = p.Nombre
 	from Empleados e
 	join Puestos p on e.IdPuesto = p.IdPuesto
 	where e.IdEmpleado = @IdEmpleado
+
 	-- Calcular adelantos
 	select @TotalAdelantos = ISNULL(SUM(Monto), 0) 
 	from Adelantos 
 	where IdEmpleado = @IdEmpleado
 	
 	-- Calcular préstamos
-	select @TotalPrestamos = ISNULL(SUM(MontoAPagarPorCuota), 0) 
+	select @TotalPrestamos = ISNULL(SUM(SugerenciaDeRebajo), 0) 
 	from Prestamos 
 	where IdEmpleado = @IdEmpleado
-	
-	-- Calcular seguro
-	select @Seguro = case when e.PagaSeguro = 1 then ISNULL(s.MontoEmpleado, 0) else 0 end
-	from Empleados e
-	LEFT JOIN Seguros s on e.IdPuesto = s.IdPuesto
-	where e.IdEmpleado = @IdEmpleado
 
 	--Calcular Horas
 	select @HorasTrabajadas = ISNULL(SUM(HorasTrabajadas), 0)
@@ -644,61 +819,77 @@ begin
 	begin
 		set @HorasTrabajadas = @HorasTrabajadas + ((@HorasTrabajadas - 8) * 0.5)
 	end
-
-	--Calcular Salario
-	set @Salario = @SalarioBase - @TotalAdelantos - @TotalPrestamos - @Seguro
-
+	-- Ver Bonificación
+	select @Bonificacion = Bonificacion
+	from Empleados
+	where IdEmpleado = @IdEmpleado
 	
 	-- Retornar resultados
 	select 
 		e.IdEmpleado,
 		e.Nombre + ' ' + e.Apellidos as NombreEmpleado,
-		@SalarioBase as SalarioBase,
+		@Puesto as Puesto,
+		@SalarioReal as SalarioReal,
+		@SalarioReportado as SalarioReportado,
 		@TotalAdelantos as TotalAdelantos,
 		@TotalPrestamos as Rebajo_de_Prestamo,
 		@Seguro as Seguro,
+		@ValorHora as ValorHora,
 		@HorasTrabajadas as HorasTrabajadas,
 		@HorasExtra as HorasExtra,
-		@Salario as SalarioFinal
+		@Bonificacion as Bonificacion
 	from Empleados e
 	where e.IdEmpleado = @IdEmpleado
 end
 go
 
 
-create procedure SP_PagarSalario(
+
+
+create or alter procedure SP_PagarSalario(
 	@IdEmpleado int,
+	@Seguro decimal(18, 2),
+	@Adelanto decimal(18, 2),
+	@RebajoDePrestamo decimal(18, 2),
+	@HorasTrabajadas decimal(18, 2),
+	@HorasExtra decimal(18, 2),
+	@DiasAusentes int,
+	@DiasIncapacitados int,
+	@DiasDobles int,
+	@Bonificacion decimal(18, 2),
+	@SalarioReal decimal(18, 2),
+	@SalarioPagado decimal(18, 2),
+	@SalarioReportado decimal(18, 2),
 	@Mensaje varchar(500) output,
 	@Resultado bit output
 )
 as
 begin
 	begin try
-		declare @SalarioBase decimal(18, 2);
-		declare @TotalAdelantos decimal(18, 2);
-		declare @RebajoPrestamo decimal(18, 2);
-		declare @Seguro decimal(18, 2);
-		declare @SalarioFinal decimal(18, 2);
+		declare @NombreEmpleado varchar(100)
+		declare @ValorHora decimal(18, 2)
 
 
-		select @SalarioBase = SalarioBase
-		from Empleados e
-		join Puestos p on e.IdPuesto = p.IdPuesto
-		where e.IdEmpleado = @IdEmpleado;
+		select @NombreEmpleado = Nombre + ' ' + Apellidos + ' ' + Identificacion,
+				@ValorHora = ValorHora
+		from Empleados
+		where IdEmpleado = @IdEmpleado
+
+		insert into RegistroPagos (IdEmpleado, NombreEmpleado, HorasTrabajadas, HorasExtra,DiasAusentes, DiasIncapacitados, DiasDobles, SalarioReal,SalarioPagado, SalarioReportado, Seguro, Adelanto, Prestamo, Bonificacion)
+					values (@IdEmpleado, @NombreEmpleado, @HorasTrabajadas, @HorasExtra,@DiasAusentes, @DiasIncapacitados, @DiasDobles, @SalarioReal, @SalarioPagado , @SalarioReportado, @Seguro,@Adelanto,@RebajoDePrestamo,@Bonificacion)
 
 		delete from Adelantos where IdEmpleado = @IdEmpleado;
 
+		update Prestamos set
+							MontoRestante = MontoRestante - @RebajoDePrestamo, 
+							MontoPagado = MontoPagado + @RebajoDePrestamo
+		where IdEmpleado = @IdEmpleado;
 
-		update Prestamos set CuotasRestantes = CuotasRestantes - 1,
-							MontoRestante = MontoRestante - MontoAPagarPorCuota, 
-							MontoPagado = MontoPagado + MontoAPagarPorCuota
-		where IdEmpleado = @IdEmpleado and CuotasRestantes > 0;
-		if(select CuotasRestantes from Prestamos where IdEmpleado = @IdEmpleado) = 0
-		begin
-			delete from Prestamos where IdEmpleado = @IdEmpleado and CuotasRestantes = 0;
-		end
-
-
+		insert into RegistroPrestamos (IdPrestamo, IdEmpleado, NombreEmpleado, MontoPagado)
+		select IdPrestamo, @IdEmpleado, @NombreEmpleado, @RebajoDePrestamo
+		from Prestamos
+		where IdEmpleado = @IdEmpleado and MontoRestante > 0
+		
 		set @Mensaje = 'Salario pagado exitosamente';
 		set @Resultado = 1;
 	end try
@@ -707,3 +898,44 @@ begin
 		set @Resultado = 0;
 	end catch
 end
+go
+
+create or alter procedure SP_VerRegistroPagos(
+	@IdEmpleado int = null,
+	@Fecha date = null
+)
+as
+begin
+	select
+	NombreEmpleado,
+	HorasTrabajadas,
+	HorasExtra,
+	DiasAusentes,
+	DiasIncapacitados,
+	DiasDobles,
+	SalarioReal,
+	SalarioPagado,
+	SalarioReportado,
+	Seguro,
+	Adelanto,
+	Prestamo,
+	Bonificacion,
+	Fecha
+	from RegistroPagos
+	where (@IdEmpleado is null or IdEmpleado = @IdEmpleado) AND (@Fecha is null or Fecha = @Fecha)
+	order by Fecha desc
+end
+go
+
+
+create or alter view VW_RegistroPrestamos
+as
+select
+	IdRegistro,
+	IdPrestamo,
+	IdEmpleado,
+	NombreEmpleado,
+	MontoPagado,
+	Fecha
+from RegistroPrestamos
+go
