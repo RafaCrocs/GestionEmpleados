@@ -16,10 +16,8 @@ namespace GestionEmpleados.DAL.Empresa
                             a.IdEmpleado,
 	                        e.Nombre + ' ' + e.Apellidos + ' ' + e.Identificacion AS NombreEmpleado,
 	                        a.Monto,
-                            a.Cuotas,
-	                        a.MontoRestante,
-	                        a.CuotasRestantes,
-                            a.MontoAPagarPorCuota,
+                            a.SugerenciaDeRebajo,
+                            a.MontoRestante,
 	                        a.MontoPagado,
 	                        a.FechaInicio,
 	                        a.Detalle
@@ -47,10 +45,8 @@ namespace GestionEmpleados.DAL.Empresa
                                     Nombre = reader["NombreEmpleado"].ToString()
                                 },
                                 Monto = Convert.ToDecimal(reader["Monto"]),
-                                Cuotas = Convert.ToInt32(reader["Cuotas"]),
+                                SugerenciaDeRebajo = Convert.ToDecimal(reader["SugerenciaDeRebajo"]),
                                 MontoRestante = Convert.ToDecimal(reader["MontoRestante"]),
-                                CuotasRestantes = Convert.ToInt32(reader["CuotasRestantes"]),
-                                MontoAPagarPorCuota = Convert.ToDecimal(reader["MontoAPagarPorCuota"]),
                                 MontoPagado = Convert.ToDecimal(reader["MontoPagado"]),
                                 FechaInicio = Convert.ToDateTime(reader["FechaInicio"]),
                                 Detalle = reader["Detalle"].ToString()
@@ -81,7 +77,7 @@ namespace GestionEmpleados.DAL.Empresa
 
                     cmd.Parameters.AddWithValue("@IdEmpleado", nuevoPrestamo.IdEmpleado.IdEmpleado);
                     cmd.Parameters.AddWithValue("@Monto", nuevoPrestamo.Monto);
-                    cmd.Parameters.AddWithValue("@Cuotas", nuevoPrestamo.Cuotas);
+                    cmd.Parameters.AddWithValue("@SugerenciaDeRebajo", nuevoPrestamo.SugerenciaDeRebajo);
                     cmd.Parameters.AddWithValue("@Detalle", nuevoPrestamo.Detalle);
 
                     cmd.Parameters.Add("@Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
@@ -114,7 +110,7 @@ namespace GestionEmpleados.DAL.Empresa
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@IdPrestamo", prestamoEditar.IdPrestamo);
                     cmd.Parameters.AddWithValue("@Monto", prestamoEditar.Monto);
-                    cmd.Parameters.AddWithValue("@Cuotas", prestamoEditar.Cuotas);
+                    cmd.Parameters.AddWithValue("@SugerenciaDeRebajo", prestamoEditar.SugerenciaDeRebajo);
                     cmd.Parameters.AddWithValue("@Detalle", prestamoEditar.Detalle);
                     cmd.Parameters.Add("@Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;

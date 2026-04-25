@@ -41,19 +41,18 @@
             IdEmpleado = new DataGridViewTextBoxColumn();
             NombreEmpleado = new DataGridViewTextBoxColumn();
             Monto = new DataGridViewTextBoxColumn();
-            CuotasRestantes = new DataGridViewTextBoxColumn();
-            Cuotas = new DataGridViewTextBoxColumn();
-            MontoAPagarPorCuota = new DataGridViewTextBoxColumn();
+            SugerenciaDeRebajo = new DataGridViewTextBoxColumn();
             MontoRestante = new DataGridViewTextBoxColumn();
             MontoPagado = new DataGridViewTextBoxColumn();
             FechaInicio = new DataGridViewTextBoxColumn();
             Detalle = new DataGridViewTextBoxColumn();
+            lblPrestamos = new Label();
             ((System.ComponentModel.ISupportInitialize)gridPrestamos).BeginInit();
             SuspendLayout();
             // 
             // btnAgregar
             // 
-            btnAgregar.Location = new Point(809, 116);
+            btnAgregar.Location = new Point(914, 171);
             btnAgregar.Margin = new Padding(3, 2, 3, 2);
             btnAgregar.Name = "btnAgregar";
             btnAgregar.Size = new Size(112, 22);
@@ -64,7 +63,7 @@
             // 
             // btnLimpiarBuscador
             // 
-            btnLimpiarBuscador.Location = new Point(332, 82);
+            btnLimpiarBuscador.Location = new Point(336, 141);
             btnLimpiarBuscador.Name = "btnLimpiarBuscador";
             btnLimpiarBuscador.Size = new Size(61, 23);
             btnLimpiarBuscador.TabIndex = 34;
@@ -74,7 +73,7 @@
             // cmbPuestos
             // 
             cmbPuestos.FormattingEnabled = true;
-            cmbPuestos.Location = new Point(125, 82);
+            cmbPuestos.Location = new Point(129, 141);
             cmbPuestos.Margin = new Padding(3, 2, 3, 2);
             cmbPuestos.Name = "cmbPuestos";
             cmbPuestos.Size = new Size(183, 23);
@@ -83,7 +82,7 @@
             // lblPuesto
             // 
             lblPuesto.AutoSize = true;
-            lblPuesto.Location = new Point(62, 83);
+            lblPuesto.Location = new Point(66, 142);
             lblPuesto.Name = "lblPuesto";
             lblPuesto.Size = new Size(46, 15);
             lblPuesto.TabIndex = 32;
@@ -91,7 +90,7 @@
             // 
             // txtBuscar
             // 
-            txtBuscar.Location = new Point(125, 110);
+            txtBuscar.Location = new Point(129, 169);
             txtBuscar.Margin = new Padding(3, 2, 3, 2);
             txtBuscar.Name = "txtBuscar";
             txtBuscar.Size = new Size(183, 23);
@@ -101,7 +100,7 @@
             // lblBuscar
             // 
             lblBuscar.AutoSize = true;
-            lblBuscar.Location = new Point(61, 116);
+            lblBuscar.Location = new Point(65, 175);
             lblBuscar.Name = "lblBuscar";
             lblBuscar.Size = new Size(54, 15);
             lblBuscar.TabIndex = 30;
@@ -112,14 +111,15 @@
             gridPrestamos.AllowUserToAddRows = false;
             gridPrestamos.BackgroundColor = Color.White;
             gridPrestamos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            gridPrestamos.Columns.AddRange(new DataGridViewColumn[] { Eliminar, Editar, IdPrestamo, IdEmpleado, NombreEmpleado, Monto, CuotasRestantes, Cuotas, MontoAPagarPorCuota, MontoRestante, MontoPagado, FechaInicio, Detalle });
-            gridPrestamos.Location = new Point(63, 149);
+            gridPrestamos.Columns.AddRange(new DataGridViewColumn[] { Eliminar, Editar, IdPrestamo, IdEmpleado, NombreEmpleado, Monto, SugerenciaDeRebajo, MontoRestante, MontoPagado, FechaInicio, Detalle });
+            gridPrestamos.Location = new Point(67, 208);
             gridPrestamos.Margin = new Padding(3, 2, 3, 2);
             gridPrestamos.Name = "gridPrestamos";
             gridPrestamos.RowHeadersWidth = 51;
-            gridPrestamos.Size = new Size(903, 371);
+            gridPrestamos.Size = new Size(959, 371);
             gridPrestamos.TabIndex = 29;
             gridPrestamos.CellContentClick += gridPrestamos_CellContentClick;
+            gridPrestamos.CellFormatting += gridPrestamos_CellFormatting;
             // 
             // Eliminar
             // 
@@ -167,32 +167,18 @@
             Monto.HeaderText = "Monto";
             Monto.Name = "Monto";
             // 
-            // CuotasRestantes
+            // SugerenciaDeRebajo
             // 
-            CuotasRestantes.DataPropertyName = "CuotasRestantes";
-            CuotasRestantes.HeaderText = "CuotasRestantes";
-            CuotasRestantes.Name = "CuotasRestantes";
-            CuotasRestantes.Width = 50;
-            // 
-            // Cuotas
-            // 
-            Cuotas.DataPropertyName = "Cuotas";
-            Cuotas.HeaderText = "Cuotas";
-            Cuotas.Name = "Cuotas";
-            Cuotas.Visible = false;
-            // 
-            // MontoAPagarPorCuota
-            // 
-            MontoAPagarPorCuota.DataPropertyName = "MontoAPagarPorCuota";
-            MontoAPagarPorCuota.HeaderText = "MontoAPagarPorCuota";
-            MontoAPagarPorCuota.Name = "MontoAPagarPorCuota";
-            MontoAPagarPorCuota.Visible = false;
+            SugerenciaDeRebajo.DataPropertyName = "SugerenciaDeRebajo";
+            SugerenciaDeRebajo.HeaderText = "Sugerencia de Rebajo";
+            SugerenciaDeRebajo.Name = "SugerenciaDeRebajo";
             // 
             // MontoRestante
             // 
             MontoRestante.DataPropertyName = "MontoRestante";
             MontoRestante.HeaderText = "MontoRestante";
             MontoRestante.Name = "MontoRestante";
+            MontoRestante.Visible = false;
             // 
             // MontoPagado
             // 
@@ -214,11 +200,21 @@
             Detalle.MinimumWidth = 6;
             Detalle.Name = "Detalle";
             // 
+            // lblPrestamos
+            // 
+            lblPrestamos.Font = new Font("Segoe UI", 22F);
+            lblPrestamos.Location = new Point(67, 38);
+            lblPrestamos.Name = "lblPrestamos";
+            lblPrestamos.Size = new Size(181, 50);
+            lblPrestamos.TabIndex = 36;
+            lblPrestamos.Text = "Prestamos";
+            // 
             // frmPrestamos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1034, 594);
+            ClientSize = new Size(1100, 590);
+            Controls.Add(lblPrestamos);
             Controls.Add(btnAgregar);
             Controls.Add(btnLimpiarBuscador);
             Controls.Add(cmbPuestos);
@@ -227,6 +223,7 @@
             Controls.Add(lblBuscar);
             Controls.Add(gridPrestamos);
             Name = "frmPrestamos";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "frmPrestamos";
             Load += frmPrestamos_Load;
             ((System.ComponentModel.ISupportInitialize)gridPrestamos).EndInit();
@@ -249,12 +246,11 @@
         private DataGridViewTextBoxColumn IdEmpleado;
         private DataGridViewTextBoxColumn NombreEmpleado;
         private DataGridViewTextBoxColumn Monto;
-        private DataGridViewTextBoxColumn CuotasRestantes;
-        private DataGridViewTextBoxColumn Cuotas;
-        private DataGridViewTextBoxColumn MontoAPagarPorCuota;
+        private DataGridViewTextBoxColumn SugerenciaDeRebajo;
         private DataGridViewTextBoxColumn MontoRestante;
         private DataGridViewTextBoxColumn MontoPagado;
         private DataGridViewTextBoxColumn FechaInicio;
         private DataGridViewTextBoxColumn Detalle;
+        private Label lblPrestamos;
     }
 }

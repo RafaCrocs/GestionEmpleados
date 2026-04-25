@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Text;
 using System.Windows.Forms;
 
@@ -38,8 +39,8 @@ namespace GestionEmpleados.Forms.Modals
             if (PrestamoAEditar != null)
             {
                 cmbEmpleados.SelectedValue = PrestamoAEditar.IdEmpleado.IdEmpleado;
-                txtMonto.Text = PrestamoAEditar.Monto.ToString("F2");
-                numCuotas.Value = PrestamoAEditar.Cuotas;
+                txtMonto.Text = PrestamoAEditar.Monto.ToString("C2", CultureInfo.CreateSpecificCulture("es-CR"));
+                txtSugerenciaDeRebajo.Text = PrestamoAEditar.SugerenciaDeRebajo.ToString("C2", CultureInfo.CreateSpecificCulture("es-CR"));
                 txtDetalle.Text = PrestamoAEditar.Detalle;
             }
         }
@@ -52,35 +53,31 @@ namespace GestionEmpleados.Forms.Modals
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if(cmbEmpleados.SelectedIndex == -1)
+            if (cmbEmpleados.SelectedIndex == -1)
             {
                 MessageBox.Show("Seleccione un empleado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if(txtMonto.Text == "" || !decimal.TryParse(txtMonto.Text, out decimal monto))
+            if (txtMonto.Text == "" || !decimal.TryParse(txtMonto.Text, NumberStyles.Currency, CultureInfo.CreateSpecificCulture("es-CR"), out decimal monto))
             {
                 MessageBox.Show("Ingrese un monto válido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if(numCuotas.Value <= 0)
-            {
-                MessageBox.Show("Ingrese un número de cuotas válido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if(txtDetalle.Text == "")
+
+            if (txtDetalle.Text == "")
             {
                 MessageBox.Show("Ingrese un detalle", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if(PrestamoAEditar == null)
+            if (PrestamoAEditar == null)
             {
                 if (MessageBox.Show("¿Desea crear un nuevo préstamo?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     NuevoPrestamo = new Prestamo
                     {
                         IdEmpleado = cmbEmpleados.SelectedItem as Empleado,
-                        Monto = monto,
-                        Cuotas = Convert.ToInt32(numCuotas.Value),
+                        Monto = txtMonto.Text == "" ? 0 : decimal.Parse(txtMonto.Text, NumberStyles.Currency, CultureInfo.CreateSpecificCulture("es-CR")),
+                        SugerenciaDeRebajo = txtSugerenciaDeRebajo.Text == "" ? 0 : decimal.Parse(txtSugerenciaDeRebajo.Text, NumberStyles.Currency, CultureInfo.CreateSpecificCulture("es-CR")),
                         Detalle = txtDetalle.Text
                     };
                     this.DialogResult = DialogResult.OK;
@@ -88,15 +85,25 @@ namespace GestionEmpleados.Forms.Modals
             }
             else
             {
-                if(MessageBox.Show("¿Desea guardar los cambios al préstamo?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("¿Desea guardar los cambios al préstamo?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     PrestamoAEditar.IdEmpleado = cmbEmpleados.SelectedItem as Empleado;
                     PrestamoAEditar.Monto = monto;
-                    PrestamoAEditar.Cuotas = Convert.ToInt32(numCuotas.Value);
+                    PrestamoAEditar.SugerenciaDeRebajo = txtSugerenciaDeRebajo.Text == "" ? 0 : decimal.Parse(txtSugerenciaDeRebajo.Text, NumberStyles.Currency, CultureInfo.CreateSpecificCulture("es-CR"));
                     PrestamoAEditar.Detalle = txtDetalle.Text;
                     this.DialogResult = DialogResult.OK;
                 }
             }
+        }
+
+        private void txtMonto_Leave(object sender, EventArgs e)
+        {
+            txtMonto.Text = decimal.TryParse(txtMonto.Text, NumberStyles.Currency, CultureInfo.CreateSpecificCulture("es-CR"), out decimal monto) ? monto.ToString("C2", CultureInfo.CreateSpecificCulture("es-CR")) : "";
+        }
+
+        private void txtSugerenciaDeRebajo_Leave(object sender, EventArgs e)
+        {
+            txtSugerenciaDeRebajo.Text = decimal.TryParse(txtSugerenciaDeRebajo.Text, NumberStyles.Currency, CultureInfo.CreateSpecificCulture("es-CR"), out decimal sugerencia) ? sugerencia.ToString("C2", CultureInfo.CreateSpecificCulture("es-CR")) : "";
         }
     }
 }

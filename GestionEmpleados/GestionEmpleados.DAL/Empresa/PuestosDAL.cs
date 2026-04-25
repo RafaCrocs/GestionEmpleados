@@ -26,7 +26,10 @@ namespace GestionEmpleados.DAL.Empresa
                         {
                             IdPuesto = Convert.ToInt32(reader["IdPuesto"]),
                             Nombre = reader["Nombre"].ToString(),
-                            SalarioBase = Convert.ToDecimal(reader["SalarioBase"])
+                            SalarioReportado = reader["SalarioReportado"] != DBNull.Value ? Convert.ToDecimal(reader["SalarioReportado"]) : null,
+                            PorcentajeSeguro = reader["PorcentajeSeguro"] != DBNull.Value ? Convert.ToDecimal(reader["PorcentajeSeguro"]) : null,
+                            Seguro = reader["Seguro"] != DBNull.Value ? Convert.ToDecimal(reader["Seguro"]) : null
+
                         };
                         lista.Add(nuevo);
                     }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Text;
 using System.Windows.Forms;
 
@@ -54,7 +55,7 @@ namespace GestionEmpleados.Forms.Empleados
 
         private void gridPrestamos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.RowIndex < 0) return;
+            if (e.RowIndex < 0) return;
 
 
             int idSleccionado = Convert.ToInt32(gridPrestamos.Rows[e.RowIndex].Cells[2].Value);
@@ -66,9 +67,7 @@ namespace GestionEmpleados.Forms.Empleados
                     IdPrestamo = idSleccionado,
                     IdEmpleado = (Empleado)gridPrestamos.Rows[e.RowIndex].Cells["IdEmpleado"].Value,
                     Monto = Convert.ToDecimal(gridPrestamos.Rows[e.RowIndex].Cells["Monto"].Value),
-                    Cuotas = Convert.ToInt32(gridPrestamos.Rows[e.RowIndex].Cells["Cuotas"].Value),
-                    CuotasRestantes = Convert.ToInt32(gridPrestamos.Rows[e.RowIndex].Cells["CuotasRestantes"].Value),
-                    MontoAPagarPorCuota = Convert.ToDecimal(gridPrestamos.Rows[e.RowIndex].Cells["MontoAPagarPorCuota"].Value),
+                    SugerenciaDeRebajo = Convert.ToDecimal(gridPrestamos.Rows[e.RowIndex].Cells["SugerenciaDeRebajo"].Value),
                     FechaInicio = Convert.ToDateTime(gridPrestamos.Rows[e.RowIndex].Cells["FechaInicio"].Value),
                     MontoRestante = Convert.ToDecimal(gridPrestamos.Rows[e.RowIndex].Cells["MontoRestante"].Value),
                     MontoPagado = Convert.ToDecimal(gridPrestamos.Rows[e.RowIndex].Cells["MontoPagado"].Value),
@@ -76,7 +75,7 @@ namespace GestionEmpleados.Forms.Empleados
                 };
                 PrestamosModal modal = new PrestamosModal(PrestamoAEditar);
                 modal.ShowDialog(this);
-                if(modal.DialogResult == DialogResult.OK)
+                if (modal.DialogResult == DialogResult.OK)
                 {
                     if (prestamosBL.Prestamos_Editar(modal.PrestamoAEditar, out string mensaje))
                     {
@@ -92,7 +91,7 @@ namespace GestionEmpleados.Forms.Empleados
             }
             else if (gridPrestamos.Columns[e.ColumnIndex].Name == "Eliminar")
             {
-                if(MessageBox.Show("Estas seguro que quieres eliminar el Prestamo?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                if (MessageBox.Show("Estas seguro que quieres eliminar el Prestamo?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     int idSeleccionado = Convert.ToInt32(gridPrestamos.Rows[e.RowIndex].Cells[2].Value);
                     if (prestamosBL.Prestamos_Eliminar(idSeleccionado, out string mensaje))
@@ -104,6 +103,21 @@ namespace GestionEmpleados.Forms.Empleados
                         MessageBox.Show($"Error al eliminar el préstamo: {mensaje}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     CargarGrid();
+                }
+            }
+        }
+
+        private void gridPrestamos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if(gridPrestamos.Columns[e.ColumnIndex].Name == "Monto" ||
+               gridPrestamos.Columns[e.ColumnIndex].Name == "MontoRestante" ||
+               gridPrestamos.Columns[e.ColumnIndex].Name == "SugerenciaDeRebajo" ||
+               gridPrestamos.Columns[e.ColumnIndex].Name == "MontoPagado")
+            {
+                if (e.Value != null)
+                {
+                    e.Value = Convert.ToDecimal(e.Value).ToString("C2", CultureInfo.CreateSpecificCulture("es-CR"));
+                    e.FormattingApplied = true;
                 }
             }
         }

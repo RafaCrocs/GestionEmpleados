@@ -31,12 +31,15 @@
             homeMenu = new MenuStrip();
             adminMenuItem = new ToolStripMenuItem();
             usuariosSysSubMenuItem = new ToolStripMenuItem();
+            puestosToolStripMenuItem = new ToolStripMenuItem();
             empleadosMenuItem = new ToolStripMenuItem();
             EmpleadosSubMenuItem = new ToolStripMenuItem();
             AdelantosSubMenuItem = new ToolStripMenuItem();
             PrestamosSubMenuItem = new ToolStripMenuItem();
             salariosToolStripMenuItem = new ToolStripMenuItem();
             pagarToolStripMenuItem = new ToolStripMenuItem();
+            historialDeSalariosToolStripMenuItem = new ToolStripMenuItem();
+            historialPrestamosToolStripMenuItem = new ToolStripMenuItem();
             homeMenu.SuspendLayout();
             SuspendLayout();
             // 
@@ -56,7 +59,7 @@
             // 
             // adminMenuItem
             // 
-            adminMenuItem.DropDownItems.AddRange(new ToolStripItem[] { usuariosSysSubMenuItem });
+            adminMenuItem.DropDownItems.AddRange(new ToolStripItem[] { usuariosSysSubMenuItem, puestosToolStripMenuItem });
             adminMenuItem.Name = "adminMenuItem";
             adminMenuItem.Size = new Size(180, 78);
             adminMenuItem.Text = "Administración";
@@ -64,13 +67,20 @@
             // usuariosSysSubMenuItem
             // 
             usuariosSysSubMenuItem.Name = "usuariosSysSubMenuItem";
-            usuariosSysSubMenuItem.Size = new Size(180, 34);
+            usuariosSysSubMenuItem.Size = new Size(176, 34);
             usuariosSysSubMenuItem.Text = "Usuarios";
             usuariosSysSubMenuItem.Click += usuariosSysSubMenuItem_Click;
             // 
+            // puestosToolStripMenuItem
+            // 
+            puestosToolStripMenuItem.Name = "puestosToolStripMenuItem";
+            puestosToolStripMenuItem.Size = new Size(176, 34);
+            puestosToolStripMenuItem.Text = "Puestos";
+            puestosToolStripMenuItem.Click += puestosToolStripMenuItem_Click;
+            // 
             // empleadosMenuItem
             // 
-            empleadosMenuItem.DropDownItems.AddRange(new ToolStripItem[] { EmpleadosSubMenuItem, AdelantosSubMenuItem, PrestamosSubMenuItem });
+            empleadosMenuItem.DropDownItems.AddRange(new ToolStripItem[] { EmpleadosSubMenuItem, AdelantosSubMenuItem, PrestamosSubMenuItem, historialPrestamosToolStripMenuItem });
             empleadosMenuItem.Name = "empleadosMenuItem";
             empleadosMenuItem.Size = new Size(136, 78);
             empleadosMenuItem.Text = "Empleados";
@@ -78,27 +88,27 @@
             // EmpleadosSubMenuItem
             // 
             EmpleadosSubMenuItem.Name = "EmpleadosSubMenuItem";
-            EmpleadosSubMenuItem.Size = new Size(197, 34);
+            EmpleadosSubMenuItem.Size = new Size(285, 34);
             EmpleadosSubMenuItem.Text = "Empleados";
             EmpleadosSubMenuItem.Click += EmpleadosSubMenuItem_Click;
             // 
             // AdelantosSubMenuItem
             // 
             AdelantosSubMenuItem.Name = "AdelantosSubMenuItem";
-            AdelantosSubMenuItem.Size = new Size(197, 34);
+            AdelantosSubMenuItem.Size = new Size(285, 34);
             AdelantosSubMenuItem.Text = "Adelantos";
             AdelantosSubMenuItem.Click += AdelantosSubMenuItem_Click;
             // 
             // PrestamosSubMenuItem
             // 
             PrestamosSubMenuItem.Name = "PrestamosSubMenuItem";
-            PrestamosSubMenuItem.Size = new Size(197, 34);
+            PrestamosSubMenuItem.Size = new Size(285, 34);
             PrestamosSubMenuItem.Text = "Prestamos";
             PrestamosSubMenuItem.Click += PrestamosSubMenuItem_Click;
             // 
             // salariosToolStripMenuItem
             // 
-            salariosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { pagarToolStripMenuItem });
+            salariosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { pagarToolStripMenuItem, historialDeSalariosToolStripMenuItem });
             salariosToolStripMenuItem.Name = "salariosToolStripMenuItem";
             salariosToolStripMenuItem.Size = new Size(107, 78);
             salariosToolStripMenuItem.Text = "Salarios";
@@ -106,9 +116,23 @@
             // pagarToolStripMenuItem
             // 
             pagarToolStripMenuItem.Name = "pagarToolStripMenuItem";
-            pagarToolStripMenuItem.Size = new Size(180, 34);
+            pagarToolStripMenuItem.Size = new Size(293, 34);
             pagarToolStripMenuItem.Text = "Pagar";
             pagarToolStripMenuItem.Click += pagarToolStripMenuItem_Click;
+            // 
+            // historialDeSalariosToolStripMenuItem
+            // 
+            historialDeSalariosToolStripMenuItem.Name = "historialDeSalariosToolStripMenuItem";
+            historialDeSalariosToolStripMenuItem.Size = new Size(293, 34);
+            historialDeSalariosToolStripMenuItem.Text = "Historial de Salarios";
+            historialDeSalariosToolStripMenuItem.Click += historialDeSalariosToolStripMenuItem_Click;
+            // 
+            // historialPrestamosToolStripMenuItem
+            // 
+            historialPrestamosToolStripMenuItem.Name = "historialPrestamosToolStripMenuItem";
+            historialPrestamosToolStripMenuItem.Size = new Size(285, 34);
+            historialPrestamosToolStripMenuItem.Text = "Historial Prestamos";
+            historialPrestamosToolStripMenuItem.Click += historialPrestamosToolStripMenuItem_Click;
             // 
             // Inicio
             // 
@@ -136,5 +160,8 @@
         private ToolStripMenuItem PrestamosSubMenuItem;
         private ToolStripMenuItem salariosToolStripMenuItem;
         private ToolStripMenuItem pagarToolStripMenuItem;
+        private ToolStripMenuItem puestosToolStripMenuItem;
+        private ToolStripMenuItem historialDeSalariosToolStripMenuItem;
+        private ToolStripMenuItem historialPrestamosToolStripMenuItem;
     }
 }

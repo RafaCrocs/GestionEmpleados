@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace GestionEmpleados.Forms.Modals
@@ -23,6 +24,8 @@ namespace GestionEmpleados.Forms.Modals
 
         private EmpleadosBL empleadosBL = new EmpleadosBL();
         private List<Empleado> empleados;
+
+        public static System.Globalization.CultureInfo culture = System.Globalization.CultureInfo.CreateSpecificCulture("es-CR");
 
         private void CargarCombo()
         {
@@ -51,7 +54,7 @@ namespace GestionEmpleados.Forms.Modals
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if(txtMonto.Text == "" || !decimal.TryParse(txtMonto.Text, out decimal monto))
+            if (txtMonto.Text == "" || !decimal.TryParse(txtMonto.Text, System.Globalization.NumberStyles.Currency, culture, out decimal monto))
             {
                 MessageBox.Show("Ingrese un monto válido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -63,7 +66,7 @@ namespace GestionEmpleados.Forms.Modals
             }
             if (AdelantoAEditar != null)
             {
-                if(MessageBox.Show("Realmente deseas editar el adelanto?", "EDITAR", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Realmente deseas editar el adelanto?", "EDITAR", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     AdelantoAEditar.IdEmpleado = cmbEmpleados.SelectedItem as Empleado;
                     AdelantoAEditar.Monto = monto;
@@ -73,7 +76,7 @@ namespace GestionEmpleados.Forms.Modals
             }
             else
             {
-                if(MessageBox.Show("Realmente deseas agregar el adelanto?", "AGREGAR", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Realmente deseas agregar el adelanto?", "AGREGAR", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     NuevoAdelanto = new Adelanto
                     {
@@ -85,6 +88,33 @@ namespace GestionEmpleados.Forms.Modals
                 }
             }
 
+        }
+
+        private void txtMonto_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtMonto.Text))
+            {
+                txtMonto.Text = "0.00";
+                return;
+            }
+
+            if (decimal.TryParse(
+                    txtMonto.Text,
+                    System.Globalization.NumberStyles.Currency,
+                    culture,
+                    out decimal monto))
+            {
+                txtMonto.Text = monto.ToString("C2", culture);
+            }
+            else
+            {
+                MessageBox.Show(
+                    "El valor ingresado no es un número válido.",
+                    "Formato Incorrecto",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                txtMonto.Text = "";
+            }
         }
     }
 }

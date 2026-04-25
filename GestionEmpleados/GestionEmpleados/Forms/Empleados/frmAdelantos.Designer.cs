@@ -42,12 +42,13 @@
             Fecha = new DataGridViewTextBoxColumn();
             Detalle = new DataGridViewTextBoxColumn();
             btnAgregar = new Button();
+            lblAdelantos = new Label();
             ((System.ComponentModel.ISupportInitialize)gridAdelantos).BeginInit();
             SuspendLayout();
             // 
             // btnLimpiarBuscador
             // 
-            btnLimpiarBuscador.Location = new Point(327, 62);
+            btnLimpiarBuscador.Location = new Point(330, 120);
             btnLimpiarBuscador.Name = "btnLimpiarBuscador";
             btnLimpiarBuscador.Size = new Size(61, 23);
             btnLimpiarBuscador.TabIndex = 27;
@@ -57,7 +58,7 @@
             // cmbPuestos
             // 
             cmbPuestos.FormattingEnabled = true;
-            cmbPuestos.Location = new Point(120, 62);
+            cmbPuestos.Location = new Point(123, 120);
             cmbPuestos.Margin = new Padding(3, 2, 3, 2);
             cmbPuestos.Name = "cmbPuestos";
             cmbPuestos.Size = new Size(183, 23);
@@ -66,7 +67,7 @@
             // lblPuesto
             // 
             lblPuesto.AutoSize = true;
-            lblPuesto.Location = new Point(57, 63);
+            lblPuesto.Location = new Point(60, 121);
             lblPuesto.Name = "lblPuesto";
             lblPuesto.Size = new Size(46, 15);
             lblPuesto.TabIndex = 25;
@@ -74,7 +75,7 @@
             // 
             // txtBuscar
             // 
-            txtBuscar.Location = new Point(120, 90);
+            txtBuscar.Location = new Point(123, 148);
             txtBuscar.Margin = new Padding(3, 2, 3, 2);
             txtBuscar.Name = "txtBuscar";
             txtBuscar.Size = new Size(183, 23);
@@ -84,7 +85,7 @@
             // lblBuscar
             // 
             lblBuscar.AutoSize = true;
-            lblBuscar.Location = new Point(56, 96);
+            lblBuscar.Location = new Point(59, 154);
             lblBuscar.Name = "lblBuscar";
             lblBuscar.Size = new Size(54, 15);
             lblBuscar.TabIndex = 22;
@@ -96,13 +97,14 @@
             gridAdelantos.BackgroundColor = Color.White;
             gridAdelantos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             gridAdelantos.Columns.AddRange(new DataGridViewColumn[] { Eliminar, IdAdelanto, IdEmpleado, NombreEmpleado, Monto, Fecha, Detalle });
-            gridAdelantos.Location = new Point(58, 129);
+            gridAdelantos.Location = new Point(61, 187);
             gridAdelantos.Margin = new Padding(3, 2, 3, 2);
             gridAdelantos.Name = "gridAdelantos";
             gridAdelantos.RowHeadersWidth = 51;
             gridAdelantos.Size = new Size(858, 372);
             gridAdelantos.TabIndex = 21;
             gridAdelantos.CellContentClick += gridAdelantos_CellContentClick;
+            gridAdelantos.CellFormatting += gridAdelantos_CellFormatting;
             // 
             // Eliminar
             // 
@@ -159,7 +161,7 @@
             // 
             // btnAgregar
             // 
-            btnAgregar.Location = new Point(804, 96);
+            btnAgregar.Location = new Point(807, 154);
             btnAgregar.Margin = new Padding(3, 2, 3, 2);
             btnAgregar.Name = "btnAgregar";
             btnAgregar.Size = new Size(112, 22);
@@ -168,11 +170,21 @@
             btnAgregar.UseVisualStyleBackColor = true;
             btnAgregar.Click += btnAgregar_Click;
             // 
+            // lblAdelantos
+            // 
+            lblAdelantos.Font = new Font("Segoe UI", 22F);
+            lblAdelantos.Location = new Point(47, 31);
+            lblAdelantos.Name = "lblAdelantos";
+            lblAdelantos.Size = new Size(196, 46);
+            lblAdelantos.TabIndex = 29;
+            lblAdelantos.Text = "Adelantos";
+            // 
             // frmAdelantos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1008, 548);
+            ClientSize = new Size(1022, 609);
+            Controls.Add(lblAdelantos);
             Controls.Add(btnAgregar);
             Controls.Add(btnLimpiarBuscador);
             Controls.Add(cmbPuestos);
@@ -181,6 +193,7 @@
             Controls.Add(lblBuscar);
             Controls.Add(gridAdelantos);
             Name = "frmAdelantos";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "frmAdelantos";
             Load += frmAdelantos_Load;
             ((System.ComponentModel.ISupportInitialize)gridAdelantos).EndInit();
@@ -204,5 +217,6 @@
         private DataGridViewTextBoxColumn Monto;
         private DataGridViewTextBoxColumn Fecha;
         private DataGridViewTextBoxColumn Detalle;
+        private Label lblAdelantos;
     }
 }

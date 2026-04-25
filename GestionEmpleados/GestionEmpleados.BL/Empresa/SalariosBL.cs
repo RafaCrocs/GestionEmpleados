@@ -13,9 +13,9 @@ namespace GestionEmpleados.BL
             return salariosDAL.Salarios_ObtenerTodos(idEmpleado, out mensaje);
         }
 
-        public bool Salarios_PagarSalario(int idEmpleado, out string mensaje)
+        public bool Salarios_PagarSalario(Salario salario, out string mensaje)
         {
-            return salariosDAL.Salarios_PagarSalario(idEmpleado, out mensaje);
+            return salariosDAL.Salarios_PagarSalario(salario, out mensaje);
         }
     }
 }

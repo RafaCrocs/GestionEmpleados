@@ -32,19 +32,19 @@
             cmbEmpleados = new ComboBox();
             txtMonto = new TextBox();
             lblMonto = new Label();
-            lblCuotas = new Label();
             lblDetalle = new Label();
-            numCuotas = new NumericUpDown();
             txtDetalle = new TextBox();
             btnCancelar = new Button();
             btnAceptar = new Button();
-            ((System.ComponentModel.ISupportInitialize)numCuotas).BeginInit();
+            lblSugerenciaDeRebajo = new Label();
+            txtSugerenciaDeRebajo = new TextBox();
+            lblTitulo = new Label();
             SuspendLayout();
             // 
             // lblEmpleado
             // 
             lblEmpleado.AutoSize = true;
-            lblEmpleado.Location = new Point(43, 66);
+            lblEmpleado.Location = new Point(47, 140);
             lblEmpleado.Name = "lblEmpleado";
             lblEmpleado.Size = new Size(66, 15);
             lblEmpleado.TabIndex = 0;
@@ -53,62 +53,47 @@
             // cmbEmpleados
             // 
             cmbEmpleados.FormattingEnabled = true;
-            cmbEmpleados.Location = new Point(43, 93);
+            cmbEmpleados.Location = new Point(47, 167);
             cmbEmpleados.Name = "cmbEmpleados";
             cmbEmpleados.Size = new Size(346, 23);
             cmbEmpleados.TabIndex = 1;
             // 
             // txtMonto
             // 
-            txtMonto.Location = new Point(43, 155);
+            txtMonto.Location = new Point(47, 229);
             txtMonto.Name = "txtMonto";
             txtMonto.Size = new Size(193, 23);
             txtMonto.TabIndex = 2;
+            txtMonto.Leave += txtMonto_Leave;
             // 
             // lblMonto
             // 
             lblMonto.AutoSize = true;
-            lblMonto.Location = new Point(43, 137);
+            lblMonto.Location = new Point(47, 211);
             lblMonto.Name = "lblMonto";
             lblMonto.Size = new Size(49, 15);
             lblMonto.TabIndex = 3;
             lblMonto.Text = "Monto: ";
             // 
-            // lblCuotas
-            // 
-            lblCuotas.AutoSize = true;
-            lblCuotas.Location = new Point(43, 198);
-            lblCuotas.Name = "lblCuotas";
-            lblCuotas.Size = new Size(47, 15);
-            lblCuotas.TabIndex = 4;
-            lblCuotas.Text = "Cuotas:";
-            // 
             // lblDetalle
             // 
             lblDetalle.AutoSize = true;
-            lblDetalle.Location = new Point(43, 259);
+            lblDetalle.Location = new Point(47, 333);
             lblDetalle.Name = "lblDetalle";
             lblDetalle.Size = new Size(43, 15);
             lblDetalle.TabIndex = 5;
             lblDetalle.Text = "Detalle";
             // 
-            // numCuotas
-            // 
-            numCuotas.Location = new Point(43, 216);
-            numCuotas.Name = "numCuotas";
-            numCuotas.Size = new Size(66, 23);
-            numCuotas.TabIndex = 7;
-            // 
             // txtDetalle
             // 
-            txtDetalle.Location = new Point(43, 289);
+            txtDetalle.Location = new Point(47, 363);
             txtDetalle.Name = "txtDetalle";
             txtDetalle.Size = new Size(346, 23);
             txtDetalle.TabIndex = 8;
             // 
             // btnCancelar
             // 
-            btnCancelar.Location = new Point(214, 387);
+            btnCancelar.Location = new Point(218, 461);
             btnCancelar.Margin = new Padding(3, 2, 3, 2);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(86, 28);
@@ -118,7 +103,7 @@
             // 
             // btnAceptar
             // 
-            btnAceptar.Location = new Point(99, 387);
+            btnAceptar.Location = new Point(103, 461);
             btnAceptar.Margin = new Padding(3, 2, 3, 2);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(86, 28);
@@ -127,17 +112,44 @@
             btnAceptar.UseVisualStyleBackColor = true;
             btnAceptar.Click += btnAceptar_Click;
             // 
+            // lblSugerenciaDeRebajo
+            // 
+            lblSugerenciaDeRebajo.AutoSize = true;
+            lblSugerenciaDeRebajo.Location = new Point(47, 273);
+            lblSugerenciaDeRebajo.Name = "lblSugerenciaDeRebajo";
+            lblSugerenciaDeRebajo.Size = new Size(123, 15);
+            lblSugerenciaDeRebajo.TabIndex = 46;
+            lblSugerenciaDeRebajo.Text = "Sugerencia de Rebajo:";
+            // 
+            // txtSugerenciaDeRebajo
+            // 
+            txtSugerenciaDeRebajo.Location = new Point(47, 291);
+            txtSugerenciaDeRebajo.Name = "txtSugerenciaDeRebajo";
+            txtSugerenciaDeRebajo.Size = new Size(193, 23);
+            txtSugerenciaDeRebajo.TabIndex = 47;
+            txtSugerenciaDeRebajo.Leave += txtSugerenciaDeRebajo_Leave;
+            // 
+            // lblTitulo
+            // 
+            lblTitulo.Font = new Font("Segoe UI", 22F);
+            lblTitulo.Location = new Point(47, 47);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(154, 50);
+            lblTitulo.TabIndex = 48;
+            lblTitulo.Text = "Prestamo";
+            // 
             // PrestamosModal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(412, 472);
+            ClientSize = new Size(462, 551);
+            Controls.Add(lblTitulo);
+            Controls.Add(txtSugerenciaDeRebajo);
+            Controls.Add(lblSugerenciaDeRebajo);
             Controls.Add(btnCancelar);
             Controls.Add(btnAceptar);
             Controls.Add(txtDetalle);
-            Controls.Add(numCuotas);
             Controls.Add(lblDetalle);
-            Controls.Add(lblCuotas);
             Controls.Add(lblMonto);
             Controls.Add(txtMonto);
             Controls.Add(cmbEmpleados);
@@ -145,7 +157,6 @@
             Name = "PrestamosModal";
             Text = "PrestamosModal";
             Load += PrestamosModal_Load;
-            ((System.ComponentModel.ISupportInitialize)numCuotas).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -156,11 +167,12 @@
         private ComboBox cmbEmpleados;
         private TextBox txtMonto;
         private Label lblMonto;
-        private Label lblCuotas;
         private Label lblDetalle;
-        private NumericUpDown numCuotas;
         private TextBox txtDetalle;
         private Button btnCancelar;
         private Button btnAceptar;
+        private Label lblSugerenciaDeRebajo;
+        private TextBox txtSugerenciaDeRebajo;
+        private Label lblTitulo;
     }
 }

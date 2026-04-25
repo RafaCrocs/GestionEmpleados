@@ -49,6 +49,21 @@ namespace GestionEmpleados
             frmSalarios menuSalarios = new frmSalarios();
             menuSalarios.ShowDialog(this);
         }
+        private void puestosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmPuestos_Seguros menuPuestosSeguros = new frmPuestos_Seguros();
+            menuPuestosSeguros.ShowDialog(this);
+        }
+        private void historialDeSalariosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmHistorialPagos menuHistorialPagos = new frmHistorialPagos();
+            menuHistorialPagos.ShowDialog(this);
+        }
+        private void historialPrestamosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmRegistroPrestamos menuRegistroPrestamos = new frmRegistroPrestamos();
+            menuRegistroPrestamos.ShowDialog(this);
+        }
         #endregion eventos
 
     }

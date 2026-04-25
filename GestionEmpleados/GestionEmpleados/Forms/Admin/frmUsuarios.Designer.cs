@@ -48,12 +48,13 @@
             Contrasenna = new DataGridViewTextBoxColumn();
             FechaCreacion = new DataGridViewTextBoxColumn();
             Activo = new DataGridViewTextBoxColumn();
+            lblListaUsuarios = new Label();
             ((System.ComponentModel.ISupportInitialize)gridUsuarios).BeginInit();
             SuspendLayout();
             // 
             // btnLimpiarBuscador
             // 
-            btnLimpiarBuscador.Location = new Point(411, 45);
+            btnLimpiarBuscador.Location = new Point(408, 114);
             btnLimpiarBuscador.Name = "btnLimpiarBuscador";
             btnLimpiarBuscador.Size = new Size(61, 23);
             btnLimpiarBuscador.TabIndex = 16;
@@ -62,7 +63,7 @@
             // 
             // btnBuscar
             // 
-            btnBuscar.Location = new Point(323, 46);
+            btnBuscar.Location = new Point(320, 115);
             btnBuscar.Margin = new Padding(3, 2, 3, 2);
             btnBuscar.Name = "btnBuscar";
             btnBuscar.Size = new Size(82, 22);
@@ -73,7 +74,7 @@
             // cmbTipoUsuario
             // 
             cmbTipoUsuario.FormattingEnabled = true;
-            cmbTipoUsuario.Location = new Point(135, 46);
+            cmbTipoUsuario.Location = new Point(132, 115);
             cmbTipoUsuario.Margin = new Padding(3, 2, 3, 2);
             cmbTipoUsuario.Name = "cmbTipoUsuario";
             cmbTipoUsuario.Size = new Size(183, 23);
@@ -82,7 +83,7 @@
             // lblTipoUsuario
             // 
             lblTipoUsuario.AutoSize = true;
-            lblTipoUsuario.Location = new Point(30, 46);
+            lblTipoUsuario.Location = new Point(27, 115);
             lblTipoUsuario.Name = "lblTipoUsuario";
             lblTipoUsuario.Size = new Size(90, 15);
             lblTipoUsuario.TabIndex = 13;
@@ -90,7 +91,7 @@
             // 
             // btnAgregar
             // 
-            btnAgregar.Location = new Point(999, 75);
+            btnAgregar.Location = new Point(996, 144);
             btnAgregar.Margin = new Padding(3, 2, 3, 2);
             btnAgregar.Name = "btnAgregar";
             btnAgregar.Size = new Size(112, 22);
@@ -101,7 +102,7 @@
             // 
             // txtBuscar
             // 
-            txtBuscar.Location = new Point(135, 76);
+            txtBuscar.Location = new Point(132, 145);
             txtBuscar.Margin = new Padding(3, 2, 3, 2);
             txtBuscar.Name = "txtBuscar";
             txtBuscar.Size = new Size(183, 23);
@@ -111,7 +112,7 @@
             // lblBuscar
             // 
             lblBuscar.AutoSize = true;
-            lblBuscar.Location = new Point(30, 76);
+            lblBuscar.Location = new Point(27, 145);
             lblBuscar.Name = "lblBuscar";
             lblBuscar.Size = new Size(54, 15);
             lblBuscar.TabIndex = 10;
@@ -123,7 +124,7 @@
             gridUsuarios.BackgroundColor = Color.White;
             gridUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             gridUsuarios.Columns.AddRange(new DataGridViewColumn[] { Editar, Eliminar, IdUsuario, IdSucursal, Nombre, Apellidos, Identificacion, IdRol, Correo, Contrasenna, FechaCreacion, Activo });
-            gridUsuarios.Location = new Point(31, 103);
+            gridUsuarios.Location = new Point(28, 172);
             gridUsuarios.Margin = new Padding(3, 2, 3, 2);
             gridUsuarios.Name = "gridUsuarios";
             gridUsuarios.RowHeadersWidth = 51;
@@ -229,11 +230,21 @@
             Activo.Name = "Activo";
             Activo.Width = 80;
             // 
+            // lblListaUsuarios
+            // 
+            lblListaUsuarios.Font = new Font("Segoe UI", 22F);
+            lblListaUsuarios.Location = new Point(28, 47);
+            lblListaUsuarios.Name = "lblListaUsuarios";
+            lblListaUsuarios.Size = new Size(290, 52);
+            lblListaUsuarios.TabIndex = 17;
+            lblListaUsuarios.Text = "Lista de Usuarios";
+            // 
             // frmUsuarios
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1172, 525);
+            ClientSize = new Size(1175, 620);
+            Controls.Add(lblListaUsuarios);
             Controls.Add(btnLimpiarBuscador);
             Controls.Add(btnBuscar);
             Controls.Add(cmbTipoUsuario);
@@ -243,6 +254,7 @@
             Controls.Add(lblBuscar);
             Controls.Add(gridUsuarios);
             Name = "frmUsuarios";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "frmUsuarios";
             Load += frmUsuarios_Load;
             ((System.ComponentModel.ISupportInitialize)gridUsuarios).EndInit();
@@ -272,5 +284,6 @@
         private DataGridViewTextBoxColumn Contrasenna;
         private DataGridViewTextBoxColumn FechaCreacion;
         private DataGridViewTextBoxColumn Activo;
+        private Label lblListaUsuarios;
     }
 }

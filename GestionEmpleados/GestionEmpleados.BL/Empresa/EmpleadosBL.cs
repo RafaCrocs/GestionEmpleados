@@ -20,9 +20,9 @@ namespace GestionEmpleados.BL.Empresa
             return empleadosDAL.Empleados_Insertar(nuevo, out mensaje);
         }
         
-        public bool Empleados_Editar(Empleado editado)
+        public bool Empleados_Editar(Empleado editado, out string mensaje)
         {
-            return empleadosDAL.Empleados_Editar(editado);
+            return empleadosDAL.Empleados_Editar(editado, out mensaje);
         }
         public bool Empleados_Eliminar(int idEmpleado, out string mensaje)
         {

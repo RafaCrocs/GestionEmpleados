@@ -45,12 +45,13 @@
             lblNombre = new Label();
             btnCancelar = new Button();
             btnAceptar = new Button();
+            lblTitulo = new Label();
             SuspendLayout();
             // 
             // cmbSucursal
             // 
             cmbSucursal.FormattingEnabled = true;
-            cmbSucursal.Location = new Point(186, 204);
+            cmbSucursal.Location = new Point(183, 278);
             cmbSucursal.Margin = new Padding(3, 2, 3, 2);
             cmbSucursal.Name = "cmbSucursal";
             cmbSucursal.Size = new Size(140, 23);
@@ -59,7 +60,7 @@
             // lblSucursal
             // 
             lblSucursal.AutoSize = true;
-            lblSucursal.Location = new Point(112, 212);
+            lblSucursal.Location = new Point(109, 286);
             lblSucursal.Name = "lblSucursal";
             lblSucursal.Size = new Size(51, 15);
             lblSucursal.TabIndex = 38;
@@ -68,7 +69,7 @@
             // lblIdentificacion
             // 
             lblIdentificacion.AutoSize = true;
-            lblIdentificacion.Location = new Point(85, 136);
+            lblIdentificacion.Location = new Point(82, 210);
             lblIdentificacion.Name = "lblIdentificacion";
             lblIdentificacion.Size = new Size(79, 15);
             lblIdentificacion.TabIndex = 37;
@@ -76,7 +77,7 @@
             // 
             // txtIdentificacion
             // 
-            txtIdentificacion.Location = new Point(186, 133);
+            txtIdentificacion.Location = new Point(183, 207);
             txtIdentificacion.Margin = new Padding(3, 2, 3, 2);
             txtIdentificacion.Name = "txtIdentificacion";
             txtIdentificacion.Size = new Size(142, 23);
@@ -84,7 +85,7 @@
             // 
             // txtApellidos
             // 
-            txtApellidos.Location = new Point(184, 95);
+            txtApellidos.Location = new Point(181, 169);
             txtApellidos.Margin = new Padding(3, 2, 3, 2);
             txtApellidos.Name = "txtApellidos";
             txtApellidos.Size = new Size(142, 23);
@@ -93,7 +94,7 @@
             // lblApellidos
             // 
             lblApellidos.AutoSize = true;
-            lblApellidos.Location = new Point(107, 98);
+            lblApellidos.Location = new Point(104, 172);
             lblApellidos.Name = "lblApellidos";
             lblApellidos.Size = new Size(56, 15);
             lblApellidos.TabIndex = 34;
@@ -101,7 +102,7 @@
             // 
             // txtContrasenna
             // 
-            txtContrasenna.Location = new Point(186, 277);
+            txtContrasenna.Location = new Point(183, 351);
             txtContrasenna.Margin = new Padding(3, 2, 3, 2);
             txtContrasenna.Name = "txtContrasenna";
             txtContrasenna.PasswordChar = '*';
@@ -111,7 +112,7 @@
             // lblContraseña
             // 
             lblContraseña.AutoSize = true;
-            lblContraseña.Location = new Point(107, 285);
+            lblContraseña.Location = new Point(104, 359);
             lblContraseña.Name = "lblContraseña";
             lblContraseña.Size = new Size(67, 15);
             lblContraseña.TabIndex = 32;
@@ -122,7 +123,7 @@
             chkActivo.AutoSize = true;
             chkActivo.Checked = true;
             chkActivo.CheckState = CheckState.Checked;
-            chkActivo.Location = new Point(278, 318);
+            chkActivo.Location = new Point(275, 392);
             chkActivo.Margin = new Padding(3, 2, 3, 2);
             chkActivo.Name = "chkActivo";
             chkActivo.Size = new Size(60, 19);
@@ -133,7 +134,7 @@
             // lblTipoUsuarioSys
             // 
             lblTipoUsuarioSys.AutoSize = true;
-            lblTipoUsuarioSys.Location = new Point(74, 177);
+            lblTipoUsuarioSys.Location = new Point(71, 251);
             lblTipoUsuarioSys.Name = "lblTipoUsuarioSys";
             lblTipoUsuarioSys.Size = new Size(90, 15);
             lblTipoUsuarioSys.TabIndex = 30;
@@ -142,7 +143,7 @@
             // cmbRoles
             // 
             cmbRoles.FormattingEnabled = true;
-            cmbRoles.Location = new Point(186, 174);
+            cmbRoles.Location = new Point(183, 248);
             cmbRoles.Margin = new Padding(3, 2, 3, 2);
             cmbRoles.Name = "cmbRoles";
             cmbRoles.Size = new Size(140, 23);
@@ -150,7 +151,7 @@
             // 
             // txtCorreo
             // 
-            txtCorreo.Location = new Point(186, 243);
+            txtCorreo.Location = new Point(183, 317);
             txtCorreo.Margin = new Padding(3, 2, 3, 2);
             txtCorreo.Name = "txtCorreo";
             txtCorreo.Size = new Size(142, 23);
@@ -159,7 +160,7 @@
             // lblCorreo
             // 
             lblCorreo.AutoSize = true;
-            lblCorreo.Location = new Point(107, 251);
+            lblCorreo.Location = new Point(104, 325);
             lblCorreo.Name = "lblCorreo";
             lblCorreo.Size = new Size(43, 15);
             lblCorreo.TabIndex = 27;
@@ -167,7 +168,7 @@
             // 
             // txtNombre
             // 
-            txtNombre.Location = new Point(184, 52);
+            txtNombre.Location = new Point(181, 126);
             txtNombre.Margin = new Padding(3, 2, 3, 2);
             txtNombre.Name = "txtNombre";
             txtNombre.Size = new Size(142, 23);
@@ -176,7 +177,7 @@
             // lblNombre
             // 
             lblNombre.AutoSize = true;
-            lblNombre.Location = new Point(112, 60);
+            lblNombre.Location = new Point(109, 134);
             lblNombre.Name = "lblNombre";
             lblNombre.Size = new Size(51, 15);
             lblNombre.TabIndex = 25;
@@ -184,7 +185,7 @@
             // 
             // btnCancelar
             // 
-            btnCancelar.Location = new Point(252, 356);
+            btnCancelar.Location = new Point(249, 430);
             btnCancelar.Margin = new Padding(3, 2, 3, 2);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(86, 28);
@@ -194,7 +195,7 @@
             // 
             // btnAceptar
             // 
-            btnAceptar.Location = new Point(137, 356);
+            btnAceptar.Location = new Point(134, 430);
             btnAceptar.Margin = new Padding(3, 2, 3, 2);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(86, 28);
@@ -203,11 +204,21 @@
             btnAceptar.UseVisualStyleBackColor = true;
             btnAceptar.Click += btnAceptar_Click_1;
             // 
+            // lblTitulo
+            // 
+            lblTitulo.Font = new Font("Segoe UI", 22F);
+            lblTitulo.Location = new Point(33, 45);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(128, 50);
+            lblTitulo.TabIndex = 45;
+            lblTitulo.Text = "Usuario";
+            // 
             // UsuarioModal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(444, 450);
+            ClientSize = new Size(447, 533);
+            Controls.Add(lblTitulo);
             Controls.Add(cmbSucursal);
             Controls.Add(lblSucursal);
             Controls.Add(lblIdentificacion);
@@ -251,5 +262,6 @@
         private Label lblNombre;
         private Button btnCancelar;
         private Button btnAceptar;
+        private Label lblTitulo;
     }
 }

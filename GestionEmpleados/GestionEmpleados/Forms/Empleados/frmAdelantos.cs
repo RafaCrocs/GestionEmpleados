@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Text;
 using System.Windows.Forms;
 
@@ -79,6 +80,17 @@ namespace GestionEmpleados.Forms.Empleados
             }
         }
 
-        
+        private void gridAdelantos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if(gridAdelantos.Columns[e.ColumnIndex].Name == "Monto")
+            {
+                if (e.Value != null)
+                {
+                    decimal monto = Convert.ToDecimal(e.Value);
+                    e.Value = monto.ToString("C2", CultureInfo.CreateSpecificCulture("es-CR"));
+                    e.FormattingApplied = true;
+                }
+            }
+        }
     }
 }

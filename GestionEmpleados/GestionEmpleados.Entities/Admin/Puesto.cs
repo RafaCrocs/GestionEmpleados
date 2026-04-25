@@ -8,6 +8,8 @@ namespace GestionEmpleados.Entities.Admin
     {
         public int IdPuesto { get; set; }
         public string? Nombre { get; set; }
-        public decimal SalarioBase { get; set; }
+        public decimal? SalarioReportado { get; set; }
+        public decimal? PorcentajeSeguro { get; set; }
+        public decimal? Seguro { get; set; }
     }
 }

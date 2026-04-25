@@ -10,16 +10,7 @@ namespace GestionEmpleados.DAL.Empresa
     {
         public List<Adelanto> Adelantos_ObtenerTodos()
         {
-            string query = @"SELECT 
-                                a.IdAdelanto,
-                                e.IdEmpleado,
-                                e.Nombre + ' ' + e.Apellidos + ' ' + e.Identificacion AS Nombre,
-                                a.Monto,
-                                a.Fecha,
-                                a.Detalle
-                            FROM dbo.Adelantos a
-                            INNER JOIN dbo.Empleados e ON a.IdEmpleado = e.IdEmpleado
-                            ORDER BY a.IdAdelanto DESC";
+            string query = "SELECT * FROM VW_AdelantosEmpleados ORDER BY IdAdelanto DESC";
 
             List<Adelanto> lista = new List<Adelanto>();
             try
@@ -35,8 +26,11 @@ namespace GestionEmpleados.DAL.Empresa
                             Adelanto adelanto = new Adelanto()
                             {
                                 IdAdelanto = Convert.ToInt32(reader["IdAdelanto"]),
-                                IdEmpleado = new Empleado() { IdEmpleado = Convert.ToInt32(reader["IdEmpleado"]),
-                                                                Nombre = reader["Nombre"].ToString() },
+                                IdEmpleado = new Empleado()
+                                {
+                                    IdEmpleado = Convert.ToInt32(reader["IdEmpleado"]),
+                                    Nombre = reader["Nombre"].ToString()
+                                },
                                 Monto   = Convert.ToDecimal(reader["Monto"]),
                                 Fecha   = Convert.ToDateTime(reader["Fecha"]),
                                 Detalle = reader["Detalle"].ToString()
